@@ -24,9 +24,6 @@ const float acceleration = 0.03; // speed_points/ms^2
 float NOW_ANGLE = 45;
 float pr_error = 0;
 float pr_error_tacho = 0;
-char global_action = 'o';
-char global_per_wait = 0;
-byte global_task_paws = 0;
 
 typedef struct {
 	tMotor max_motor_element;
@@ -61,13 +58,6 @@ weights_struct* InitStructWeight (char *command, byte weight) {
 }
 
 Arraysensors *results_sensors = NULL;
-weights_struct *mass[21][21];
 
-const byte SIZE = 21;
-int min_road[SIZE];
-byte used_points[SIZE];
-byte ver[SIZE];
-char* result_way[512];
-
-void InitMassWeights(){
-}
+tHTCS2 colorRightSensor;
+tHTCS2 colorLeftSensor;
