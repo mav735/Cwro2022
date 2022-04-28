@@ -99,11 +99,11 @@ bool readSensorRaw(tHTCS2Ptr htcs2Ptr)
 
   if (!writeI2C(&htcs2Ptr->I2CData))
     return false;
-
-  htcs2Ptr->red 	= (short)htcs2Ptr->I2CData.reply[1];
-  htcs2Ptr->green = (short)htcs2Ptr->I2CData.reply[3];
-  htcs2Ptr->blue	= (short)htcs2Ptr->I2CData.reply[5];
-  htcs2Ptr->white	= (short)htcs2Ptr->I2CData.reply[7];
+    
+  htcs2Ptr->red 	= (short)htcs2Ptr -> I2CData.reply[0] * 256 + (short)htcs2Ptr -> I2CData.reply[1];
+  htcs2Ptr->green = (short)htcs2Ptr -> I2CData.reply[2] * 256 + (short)htcs2Ptr -> I2CData.reply[3];
+  htcs2Ptr->blue	= (short)htcs2Ptr -> I2CData.reply[4] * 256 + (short)htcs2Ptr -> I2CData.reply[5];
+  htcs2Ptr->white	= (short)htcs2Ptr -> I2CData.reply[6] * 256 + (short)htcs2Ptr -> I2CData.reply[7];
 
   RGBtoHSV(htcs2Ptr->red, htcs2Ptr->green, htcs2Ptr->blue, &htcs2Ptr->hue, &htcs2Ptr->saturation, &htcs2Ptr->value);
 

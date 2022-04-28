@@ -21,8 +21,8 @@
 
 task main() {
 	NOW_ANGLE = 180;
-	initSensor(&colorRightSensor, HTright, HTCS2_MODE_ACTIVE);
+	initSensor(&colorRightSensor, HTright, HTCS2_MODE_RAW);
 	//initSensor(&colorleftSensor, HTleft, HTCS2_MODE_ACTIVE);
 
-  LCDWriteInfoHitech(&colorRightSensor);
+  LCDWriteInfoHitechRaw(&colorRightSensor);
 }
