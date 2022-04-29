@@ -61,3 +61,152 @@ Arraysensors *results_sensors = NULL;
 
 tHTCS2 colorRightSensor;
 tHTCS2 colorLeftSensor;
+
+CalibrationHiTechData CloseDistInfoLeft;
+CalibrationHiTechData MiddleDistInfoLeft;
+CalibrationHiTechData LongDistInfoLeft;
+
+CalibrationHiTechData CloseDistInfoRawLeft;
+CalibrationHiTechData MiddleDistInfoRawLeft;
+CalibrationHiTechData LongDistInfoRawLeft;
+
+CalibrationHiTechData CloseDistInfoRight;
+CalibrationHiTechData MiddleDistInfoRight;
+CalibrationHiTechData LongDistInfoRight;
+
+CalibrationHiTechData CloseDistInfoRawRight;
+CalibrationHiTechData MiddleDistInfoRawRight;
+CalibrationHiTechData LongDistInfoRawRight;
+
+void InitCalibrationNormal(){
+	// LEFT
+	// Close Normal
+	CloseDistInfoLeft.red_max = 12;
+	CloseDistInfoLeft.green_max = 12;
+	CloseDistInfoLeft.blue_max = 12;
+
+	CloseDistInfoLeft.red_min = 1;
+	CloseDistInfoLeft.green_min = 1;
+	CloseDistInfoLeft.blue_min = 1;
+	//
+
+
+	// Middle Normal
+	MiddleDistInfoLeft.red_max = 12;
+	MiddleDistInfoLeft.green_max = 12;
+	MiddleDistInfoLeft.blue_max = 12;
+
+	MiddleDistInfoLeft.red_min = 1;
+	MiddleDistInfoLeft.green_min = 1;
+	MiddleDistInfoLeft.blue_min = 1;
+	//
+
+	// Long Normal
+	LongDistInfoLeft.red_max = 12;
+	LongDistInfoLeft.green_max = 12;
+	LongDistInfoLeft.blue_max = 12;
+
+	LongDistInfoLeft.red_min = 1;
+	LongDistInfoLeft.green_min = 1;
+	LongDistInfoLeft.blue_min = 1;
+	//
+	// LEFT ---------------------------------------------- END 
+
+	// Close Normal
+	CloseDistInfoRight.red_max = 12;
+	CloseDistInfoRight.green_max = 12;
+	CloseDistInfoRight.blue_max = 12;
+
+	CloseDistInfoRight.red_min = 1;
+	CloseDistInfoRight.green_min = 1;
+	CloseDistInfoRight.blue_min = 1;
+	//
+
+
+	// Middle Normal
+	MiddleDistInfoRight.red_max = 12;
+	MiddleDistInfoRight.green_max = 12;
+	MiddleDistInfoRight.blue_max = 12;
+
+	MiddleDistInfoRight.red_min = 1;
+	MiddleDistInfoRight.green_min = 1;
+	MiddleDistInfoRight.blue_min = 1;
+	//
+
+	// Long Normal
+	LongDistInfoRight.red_max = 12;
+	LongDistInfoRight.green_max = 12;
+	LongDistInfoRight.blue_max = 12;
+
+	LongDistInfoRight.red_min = 1;
+	LongDistInfoRight.green_min = 1;
+	LongDistInfoRight.blue_min = 1;
+	//
+}
+
+
+void InitCalibrationRaw(){
+	// Close Raw
+	CloseDistInfoRawLeft.red_max = 12;
+	CloseDistInfoRawLeft.green_max = 12;
+	CloseDistInfoRawLeft.blue_max = 12;
+
+	CloseDistInfoRawLeft.red_min = 1;
+	CloseDistInfoRawLeft.green_min = 1;
+	CloseDistInfoRawLeft.blue_min = 1;
+	//
+
+
+	// Middle Raw
+	MiddleDistInfoRawLeft.red_max = 12;
+	MiddleDistInfoRawLeft.green_max = 12;
+	MiddleDistInfoRawLeft.blue_max = 12;
+
+	MiddleDistInfoRawLeft.red_min = 1;
+	MiddleDistInfoRawLeft.green_min = 1;
+	MiddleDistInfoRawLeft.blue_min = 1;
+	//
+
+	// Long Raw
+	LongDistInfoRawLeft.red_max = 12;
+	LongDistInfoRawLeft.green_max = 12;
+	LongDistInfoRawLeft.blue_max = 12;
+
+	LongDistInfoRawLeft.red_min = 1;
+	LongDistInfoRawLeft.green_min = 1;
+	LongDistInfoRawLeft.blue_min = 1;
+	//
+
+
+
+	// Close Raw
+	CloseDistInfoRawRight.red_max = 12;
+	CloseDistInfoRawRight.green_max = 12;
+	CloseDistInfoRawRight.blue_max = 12;
+
+	CloseDistInfoRawRight.red_min = 1;
+	CloseDistInfoRawRight.green_min = 1;
+	CloseDistInfoRawRight.blue_min = 1;
+	//
+
+
+	// Middle Raw
+	MiddleDistInfoRawRight.red_max = 12;
+	MiddleDistInfoRawRight.green_max = 12;
+	MiddleDistInfoRawRight.blue_max = 12;
+
+	MiddleDistInfoRawRight.red_min = 1;
+	MiddleDistInfoRawRight.green_min = 1;
+	MiddleDistInfoRawRight.blue_min = 1;
+	//
+
+	// Long Raw
+	LongDistInfoRawRight.red_max = 12;
+	LongDistInfoRawRight.green_max = 12;
+	LongDistInfoRawRight.blue_max = 12;
+
+	LongDistInfoRawRight.red_min = 1;
+	LongDistInfoRawRight.green_min = 1;
+	LongDistInfoRawRight.blue_min = 1;
+	//
+}

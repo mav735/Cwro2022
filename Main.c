@@ -21,8 +21,10 @@
 
 task main() {
 	NOW_ANGLE = 180;
-	initSensor(&colorRightSensor, HTright, HTCS2_MODE_RAW);
+	initSensor(&colorRightSensor, HTright, HTCS2_MODE_ACTIVE);
 	//initSensor(&colorleftSensor, HTleft, HTCS2_MODE_ACTIVE);
+	InitCalibrationNormal();
+	InitCalibrationRaw();
 
-  LCDWriteInfoHitechRaw(&colorRightSensor);
+  LCDWriteInfoHitech(&colorRightSensor, &LongDistInfoRight);
 }

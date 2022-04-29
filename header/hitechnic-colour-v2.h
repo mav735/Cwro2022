@@ -29,19 +29,38 @@
 #define HTCS2_MODE_50HZ       0x35      /*!< Set sensor to 50Hz cancellation mode */
 #define HTCS2_MODE_60HZ       0x36      /*!< Set sensor to 60Hz cancellation mode */
 
-typedef struct
-{
+typedef struct{
   tI2CData I2CData;
   short color;
+
   short red;
   short green;
   short blue;
   short white;
+
+  float red_calibrated;
+  float green_calibrated;
+  float blue_calibrated;
+
   float hue;
   float saturation;
   float value;
+
+  float hue_calibrated;
+  float saturation_calibrated;
+  float value_calibrated;
+
   ubyte _cmd;
 } tHTCS2, *tHTCS2Ptr;
+
+typedef struct {
+	short red_max;
+	short green_max;
+	short blue_max;
+	short red_min;
+	short green_min;
+	short blue_min;
+} CalibrationHiTechData, *CalibrationPtr;
 
 
 bool _sensorSendCommand(tHTCS2Ptr htcs2Ptr);
@@ -65,29 +84,39 @@ void SetModeHitech(tHTCS2Ptr htcs2Ptr, ubyte mode = HTCS2_MODE_ACTIVE){
   _sensorSendCommand(htcs2Ptr);
 }
 
-bool readSensor(tHTCS2Ptr htcs2Ptr)
+bool readSensor(tHTCS2Ptr htcs2Ptr, CalibrationPtr data)
 {
   memset(htcs2Ptr->I2CData.request, 0, sizeof(htcs2Ptr->I2CData.request));
 
-  htcs2Ptr->I2CData.request[0] = 2;                         // Message size
-  htcs2Ptr->I2CData.request[1] = htcs2Ptr->I2CData.address; // I2C Address
-  htcs2Ptr->I2CData.request[2] = HTCS2_OFFSET + HTCS2_COLNUM_REG;
-  htcs2Ptr->I2CData.replyLen = 4;
-  htcs2Ptr->I2CData.requestLen = 2;
+  htcs2Ptr -> I2CData.request[0] = 2;                         // Message size
+  htcs2Ptr -> I2CData.request[1] = htcs2Ptr->I2CData.address; // I2C Address
+  htcs2Ptr -> I2CData.request[2] = HTCS2_OFFSET + HTCS2_COLNUM_REG;
+  htcs2Ptr -> I2CData.replyLen = 4;
+  htcs2Ptr -> I2CData.requestLen = 2;
 
   if (!writeI2C(&htcs2Ptr->I2CData))
     return false;
 
-  htcs2Ptr->color = htcs2Ptr->I2CData.reply[0];
-  htcs2Ptr->red 	= (short)htcs2Ptr->I2CData.reply[1];
-  htcs2Ptr->green = (short)htcs2Ptr->I2CData.reply[2];
-  htcs2Ptr->blue	= (short)htcs2Ptr->I2CData.reply[3];
+  short red_value   = (short)htcs2Ptr->I2CData.reply[1];
+  short green_value = (short)htcs2Ptr->I2CData.reply[2];
+  short blue_value  = (short)htcs2Ptr->I2CData.reply[3];
+
+  htcs2Ptr -> color = htcs2Ptr->I2CData.reply[0];
+  htcs2Ptr -> red 	= red_value;
+  htcs2Ptr -> green = green_value;
+  htcs2Ptr -> blue	= blue_value;
+
+  htcs2Ptr -> red_calibrated   = (float)(((red_value -   (data->red_min))   / (data->red_max -   data->red_min)) * 255);
+  htcs2Ptr -> green_calibrated = (float)(((green_value - (data->green_min)) / (data->green_max - data->green_min)) * 255);
+  htcs2Ptr -> blue_calibrated  = (float)(((blue_value -  (data->blue_min)) /  (data->blue_max - data->blue_min)) * 255);
+
   RGBtoHSV(htcs2Ptr->red, htcs2Ptr->green, htcs2Ptr->blue, &htcs2Ptr->hue, &htcs2Ptr->saturation, &htcs2Ptr->value);
+  RGBtoHSV(htcs2Ptr->red_calibrated, htcs2Ptr->green_calibrated, htcs2Ptr->blue_calibrated, &htcs2Ptr->hue_calibrated, &htcs2Ptr->saturation_calibrated, &htcs2Ptr->value_calibrated);
 
   return true;
 }
 
-bool readSensorRaw(tHTCS2Ptr htcs2Ptr)
+bool readSensorRaw(tHTCS2Ptr htcs2Ptr, CalibrationPtr data)
 {
   memset(htcs2Ptr->I2CData.request, 0, sizeof(htcs2Ptr->I2CData.request));
 
@@ -99,14 +128,21 @@ bool readSensorRaw(tHTCS2Ptr htcs2Ptr)
 
   if (!writeI2C(&htcs2Ptr->I2CData))
     return false;
-    
-  htcs2Ptr->red 	= (short)htcs2Ptr -> I2CData.reply[0] * 256 + (short)htcs2Ptr -> I2CData.reply[1];
-  htcs2Ptr->green = (short)htcs2Ptr -> I2CData.reply[2] * 256 + (short)htcs2Ptr -> I2CData.reply[3];
-  htcs2Ptr->blue	= (short)htcs2Ptr -> I2CData.reply[4] * 256 + (short)htcs2Ptr -> I2CData.reply[5];
+  
+  short red_value   = (short)htcs2Ptr -> I2CData.reply[0] * 256 + (short)htcs2Ptr -> I2CData.reply[1];
+  short green_value = (short)htcs2Ptr -> I2CData.reply[2] * 256 + (short)htcs2Ptr -> I2CData.reply[3];
+  short blue_value  = (short)htcs2Ptr -> I2CData.reply[4] * 256 + (short)htcs2Ptr -> I2CData.reply[5];
+
+  htcs2Ptr->red 	= red_value;
+  htcs2Ptr->green = green_value;
+  htcs2Ptr->blue	= blue_value;
   htcs2Ptr->white	= (short)htcs2Ptr -> I2CData.reply[6] * 256 + (short)htcs2Ptr -> I2CData.reply[7];
 
-  RGBtoHSV(htcs2Ptr->red, htcs2Ptr->green, htcs2Ptr->blue, &htcs2Ptr->hue, &htcs2Ptr->saturation, &htcs2Ptr->value);
+  htcs2Ptr -> red_calibrated   = (float)(((red_value -   (data->red_min))   / (data->red_max -   data->red_min)) * 255);
+  htcs2Ptr -> green_calibrated = (float)(((green_value - (data->green_min)) / (data->green_max - data->green_min)) * 255);
+  htcs2Ptr -> blue_calibrated  = (float)(((blue_value -  (data->blue_min)) /  (data->blue_max - data->blue_min)) * 255);
 
+  RGBtoHSV(htcs2Ptr->red_calibrated, htcs2Ptr->green_calibrated, htcs2Ptr->blue_calibrated, &htcs2Ptr->hue_calibrated, &htcs2Ptr->saturation_calibrated, &htcs2Ptr->value_calibrated);
   return true;
 }
 
