@@ -78,6 +78,12 @@ CalibrationHiTechData CloseDistInfoRawRight;
 CalibrationHiTechData MiddleDistInfoRawRight;
 CalibrationHiTechData LongDistInfoRawRight;
 
+CalibrationHiTechData MarkerInfoRawLeft;
+CalibrationHiTechData MarkerInfoRawRight;
+
+CalibrationHiTechData WashInfoRawLeft;
+CalibrationHiTechData WashInfoRawRight;
+
 void InitCalibrationNormal(){
 	// LEFT
 	// Close Normal
@@ -209,4 +215,32 @@ void InitCalibrationRaw(){
 	LongDistInfoRawRight.green_min = 1;
 	LongDistInfoRawRight.blue_min = 1;
 	//
+}
+
+void InitMarkerCallibrationRaw() {
+	MarkerInfoRawLeft.red_max = 174;
+	MarkerInfoRawLeft.green_max = 254;
+	MarkerInfoRawLeft.blue_max = 159;
+
+	MarkerInfoRawLeft.red_min = 16;
+	MarkerInfoRawLeft.green_min = 33;
+	MarkerInfoRawLeft.blue_min = 25;
+
+	MarkerInfoRawRight.red_max = 60;
+	MarkerInfoRawRight.green_max = 55;
+	MarkerInfoRawRight.blue_max = 54;
+
+	MarkerInfoRawRight.red_min = 1;
+	MarkerInfoRawRight.green_min = 2;
+	MarkerInfoRawRight.blue_min = 2;
+}
+
+void InitWashCallibrationRaw (){
+	WashInfoRawLeft.red_max = 43;
+	WashInfoRawLeft.green_max = 73;
+	WashInfoRawLeft.blue_max = 52;
+
+	WashInfoRawLeft.red_min = 21;
+	WashInfoRawLeft.green_min = 42;
+	WashInfoRawLeft.blue_min = 32;
 }

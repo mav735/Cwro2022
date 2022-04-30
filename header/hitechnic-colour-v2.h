@@ -106,9 +106,9 @@ bool readSensor(tHTCS2Ptr htcs2Ptr, CalibrationPtr data)
   htcs2Ptr -> green = green_value;
   htcs2Ptr -> blue	= blue_value;
 
-  htcs2Ptr -> red_calibrated   = (float)(((red_value -   (data->red_min))   / (data->red_max -   data->red_min)) * 255);
-  htcs2Ptr -> green_calibrated = (float)(((green_value - (data->green_min)) / (data->green_max - data->green_min)) * 255);
-  htcs2Ptr -> blue_calibrated  = (float)(((blue_value -  (data->blue_min)) /  (data->blue_max - data->blue_min)) * 255);
+  htcs2Ptr -> red_calibrated   = (float)(((red_value -   (float)(data->red_min))   / (float)(data->red_max -   (float)data->red_min)) * (float)255);
+  htcs2Ptr -> green_calibrated = (float)(((green_value - (float)(data->green_min)) / (float)(data->green_max - (float)data->green_min)) * (float)255);
+  htcs2Ptr -> blue_calibrated  = (float)(((blue_value -  (float)(data->blue_min)) /  (float)(data->blue_max - (float)data->blue_min)) * (float)255);
 
   RGBtoHSV(htcs2Ptr->red, htcs2Ptr->green, htcs2Ptr->blue, &htcs2Ptr->hue, &htcs2Ptr->saturation, &htcs2Ptr->value);
   RGBtoHSV(htcs2Ptr->red_calibrated, htcs2Ptr->green_calibrated, htcs2Ptr->blue_calibrated, &htcs2Ptr->hue_calibrated, &htcs2Ptr->saturation_calibrated, &htcs2Ptr->value_calibrated);
@@ -138,9 +138,9 @@ bool readSensorRaw(tHTCS2Ptr htcs2Ptr, CalibrationPtr data)
   htcs2Ptr->blue	= blue_value;
   htcs2Ptr->white	= (short)htcs2Ptr -> I2CData.reply[6] * 256 + (short)htcs2Ptr -> I2CData.reply[7];
 
-  htcs2Ptr -> red_calibrated   = (float)(((red_value -   (data->red_min))   / (data->red_max -   data->red_min)) * 255);
-  htcs2Ptr -> green_calibrated = (float)(((green_value - (data->green_min)) / (data->green_max - data->green_min)) * 255);
-  htcs2Ptr -> blue_calibrated  = (float)(((blue_value -  (data->blue_min)) /  (data->blue_max - data->blue_min)) * 255);
+  htcs2Ptr -> red_calibrated   = (float)((((float)red_value -   (float)(data->red_min))   / ((float)data->red_max -   (float)data->red_min)) * (float)255);
+  htcs2Ptr -> green_calibrated = (float)((((float)green_value - ((float)data->green_min)) / ((float)data->green_max - (float)data->green_min)) * (float)255);
+  htcs2Ptr -> blue_calibrated  = (float)((((float)blue_value -  ((float)data->blue_min)) /  ((float)data->blue_max - (float)data->blue_min)) * (float)255);
 
   RGBtoHSV(htcs2Ptr->red_calibrated, htcs2Ptr->green_calibrated, htcs2Ptr->blue_calibrated, &htcs2Ptr->hue_calibrated, &htcs2Ptr->saturation_calibrated, &htcs2Ptr->value_calibrated);
   return true;
