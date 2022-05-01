@@ -68,11 +68,11 @@ void Yellow_room(char cube_color, char indicator_color){
         RightWheelTurn(-70);
         BrakeLeftRightMotor(1);
 
-        MainManipulator('b');
+        //MainManipulator('b');
 
         AccelerationDist(245);
         BrakeLeftRightMotor(1);
-        
+
     }
-    
+
 }

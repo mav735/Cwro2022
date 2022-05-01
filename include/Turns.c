@@ -164,3 +164,7 @@ void AbsTurn(float need_angle){
 void EditAngle(float need_angle){
 	NOW_ANGLE = need_angle;
 }
+
+void MoveBeforeTurn(){
+	AccelerationDist(BetweenSensorsAndMiddle);
+}

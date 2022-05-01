@@ -1,6 +1,6 @@
-const float Kp = 0.21;
+const float Kp = 0.35;
 const float Ki = 0;
-const float Kd = 7.6;
+const float Kd = 9;
 
 const float Kp_tacho = 0.2;
 const float Ki_tacho = 1.5;
@@ -10,16 +10,16 @@ const float axleTrack = 175.5;
 const float wheelDiameter = 80;
 const float BetweenSensorsAndMiddle = 75;
 
-const float left_min_sensor = 2480;
-const float right_min_sensor = 2380;
+const float left_min_sensor = 2332;
+const float right_min_sensor = 2444;
 
-const float left_max_sensor = 1804;
-const float right_max_sensor = 1716;
+const float left_max_sensor = 1620;
+const float right_max_sensor = 1740;
 
 const float max_speed_const = 80;
 const float min_speed_const = 20;
 
-const float acceleration = 0.03; // speed_points/ms^2
+const float acceleration = 0.15; // speed_points/ms^2
 
 float NOW_ANGLE = 45;
 float pr_error = 0;
