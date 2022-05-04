@@ -3,7 +3,7 @@ const float Ki = 0;
 const float Kd = 7.6;
 
 const float Kp_tacho = 0.2;
-const float Ki_tacho = 1.5;
+const float Ki_tacho = 0.55;
 const float Kd_tacho = 5;
 
 const float axleTrack = 175.5;
