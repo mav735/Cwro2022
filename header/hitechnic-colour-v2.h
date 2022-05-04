@@ -1,41 +1,7 @@
-/*!@addtogroup HiTechnic
- * @{
- * @defgroup htcs2 Color Sensor V2
- * HiTechnic Color Sensor V2
- * @{
- */
-
 #ifndef __HTCS2_H__
 #define __HTCS2_H__
-/** \file hitechnic-colour-v2.h
- * \brief HiTechnic Color Sensor V2 driver
- *
- * HTCS22-driver.h provides an API for the HiTechnic Color Sensor driver.
- *
- * Changelog:
- * - 0.1: Initial release
- * - 0.2: Use new calls in common.h that don't require SPORT/MPORT macros
- *        Removed usage of ubyteToInt();
- * - 0.3: Replaced array structs with typedefs
- * - 0.4: Added HTCSreadHSV(), thanks Mike Henning, Max Bareiss
- *
- * Credits:
- * - Big thanks to HiTechnic for providing me with the hardware necessary to write and test this.
- *
- * License: You may use this code as you wish, provided you give credit where its due.
- *
- * THIS CODE WILL ONLY WORK WITH ROBOTC VERSION 4.10 AND HIGHER
-
- * \author Xander Soldaat (xander_at_botbench.com)
- * \date 27 April 2011
- * \version 0.4
- * \example hitechnic-colour-v2-test1.c
- * \example hitechnic-colour-v2-test2.c
- * \example hitechnic-colour-v2-SMUX-test1.c
- */
 
 #pragma systemFile
-#include "hitechnic-sensormux.h"
 
 #ifndef __LIGHT_COMMON_H__
 #include "common-light.h"
@@ -63,132 +29,124 @@
 #define HTCS2_MODE_50HZ       0x35      /*!< Set sensor to 50Hz cancellation mode */
 #define HTCS2_MODE_60HZ       0x36      /*!< Set sensor to 60Hz cancellation mode */
 
-typedef struct
-{
+typedef struct{
   tI2CData I2CData;
   short color;
+
   short red;
   short green;
   short blue;
+  short white;
+
+  float red_calibrated;
+  float green_calibrated;
+  float blue_calibrated;
+
   float hue;
   float saturation;
   float value;
+
+  float hue_calibrated;
+  float saturation_calibrated;
+  float value_calibrated;
+
   ubyte _cmd;
-  bool smux;
-  tMUXSensor smuxport;
 } tHTCS2, *tHTCS2Ptr;
 
-bool initSensor(tHTCS2Ptr htcs2Ptr, tSensors port);
-bool initSensor(tHTCS2Ptr htcs2Ptr, tMUXSensor muxsensor);
-bool readSensor(tHTCS2Ptr htcs2Ptr);
-bool readSensorNorm(tHTCS2Ptr htcs2Ptr);
+typedef struct {
+	short red_max;
+	short green_max;
+	short blue_max;
+	short red_min;
+	short green_min;
+	short blue_min;
+} CalibrationHiTechData, *CalibrationPtr;
+
+
 bool _sensorSendCommand(tHTCS2Ptr htcs2Ptr);
 
-tConfigParams HTCS2_config = {HTSMUX_CHAN_I2C, 4, 0x02, 0x42};  /*!< Array to hold SMUX config data for sensor */
-
-
-/**
- * Initialise the sensor's data struct and port
- *
- * @param htcs2Ptr pointer to the sensor's data struct
- * @param port the sensor port
- * @return true if no error occured, false if it did
- */
-bool initSensor(tHTCS2Ptr htcs2Ptr, tSensors port)
+bool initSensor(tHTCS2Ptr htcs2Ptr, tSensors port, ubyte mode = HTCS2_MODE_ACTIVE)
 {
   memset(htcs2Ptr, 0, sizeof(tHTCS2Ptr));
   htcs2Ptr->I2CData.address = HTCS2_I2C_ADDR;
   htcs2Ptr->I2CData.port = port;
   htcs2Ptr->I2CData.type = sensorI2CCustom;
-  htcs2Ptr->_cmd = HTCS2_MODE_ACTIVE;
-  htcs2Ptr->smux = false;
+  htcs2Ptr->_cmd = mode;
 
-  // Ensure the sensor is configured correctly
   if (SensorType[htcs2Ptr->I2CData.port] != htcs2Ptr->I2CData.type)
     SensorType[htcs2Ptr->I2CData.port] = htcs2Ptr->I2CData.type;
 
-  // Make sure the sensor is in the measurement mode
   return _sensorSendCommand(htcs2Ptr);
 }
 
-/**
- * Initialise the sensor's data struct and MUX port
- *
- * @param htcs2Ptr pointer to the sensor's data struct
- * @param muxsensor the sensor MUX port
- * @return true if no error occured, false if it did
- */
-bool initSensor(tHTCS2Ptr htcs2Ptr, tMUXSensor muxsensor)
-{
-  memset(htcs2Ptr, 0, sizeof(tHTCS2Ptr));
-  htcs2Ptr->I2CData.port = (tSensors)SPORT(muxsensor);
-  htcs2Ptr->I2CData.address = HTCS2_I2C_ADDR;
-  htcs2Ptr->I2CData.type = sensorI2CCustom;
-  htcs2Ptr->smux = true;
-  htcs2Ptr->smuxport = muxsensor;
-
-  // Ensure the sensor is configured correctly
-  if (SensorType[htcs2Ptr->I2CData.port] != htcs2Ptr->I2CData.type)
-    SensorType[htcs2Ptr->I2CData.port] = htcs2Ptr->I2CData.type;
-
-  return HTSMUXconfigChannel(muxsensor, HTCS2_config);
+void SetModeHitech(tHTCS2Ptr htcs2Ptr, ubyte mode = HTCS2_MODE_ACTIVE){
+  htcs2Ptr -> _cmd = mode;
+  _sensorSendCommand(htcs2Ptr);
 }
 
-/**
- * Read all the sensor's data
- *
- * @param htcs2Ptr pointer to the sensor's data struct
- * @return true if no error occured, false if it did
- */
-bool readSensor(tHTCS2Ptr htcs2Ptr)
+bool readSensor(tHTCS2Ptr htcs2Ptr, CalibrationPtr data)
 {
   memset(htcs2Ptr->I2CData.request, 0, sizeof(htcs2Ptr->I2CData.request));
 
-  if (htcs2Ptr->smux)
-  {
-    if (!HTSMUXreadPort(htcs2Ptr->smuxport, htcs2Ptr->I2CData.reply, 4, HTCS2_COLNUM_REG))
-      return false;
-  }
-  else
-  {
-    // Read all of the data available on the sensor
-    htcs2Ptr->I2CData.request[0] = 2;                    // Message size
-    htcs2Ptr->I2CData.request[1] = htcs2Ptr->I2CData.address; // I2C Address
-    htcs2Ptr->I2CData.request[2] = HTCS2_OFFSET + HTCS2_COLNUM_REG;
-    htcs2Ptr->I2CData.replyLen = 4;
-    htcs2Ptr->I2CData.requestLen = 2;
+  htcs2Ptr -> I2CData.request[0] = 2;                         // Message size
+  htcs2Ptr -> I2CData.request[1] = htcs2Ptr->I2CData.address; // I2C Address
+  htcs2Ptr -> I2CData.request[2] = HTCS2_OFFSET + HTCS2_COLNUM_REG;
+  htcs2Ptr -> I2CData.replyLen = 4;
+  htcs2Ptr -> I2CData.requestLen = 2;
 
-    if (!writeI2C(&htcs2Ptr->I2CData))
-      return false;
-  }
+  if (!writeI2C(&htcs2Ptr->I2CData))
+    return false;
 
-  // Populate the struct with the newly retrieved data
-  htcs2Ptr->color = htcs2Ptr->I2CData.reply[0];
-  htcs2Ptr->red 	= (short)htcs2Ptr->I2CData.reply[1];
-  htcs2Ptr->green = (short)htcs2Ptr->I2CData.reply[2];
-  htcs2Ptr->blue	= (short)htcs2Ptr->I2CData.reply[3];
+  short red_value   = (short)htcs2Ptr->I2CData.reply[1];
+  short green_value = (short)htcs2Ptr->I2CData.reply[2];
+  short blue_value  = (short)htcs2Ptr->I2CData.reply[3];
+
+  htcs2Ptr -> color = htcs2Ptr->I2CData.reply[0];
+  htcs2Ptr -> red 	= red_value;
+  htcs2Ptr -> green = green_value;
+  htcs2Ptr -> blue	= blue_value;
+
+  htcs2Ptr -> red_calibrated   = (float)(((red_value -   (float)(data->red_min))   / (float)(data->red_max -   (float)data->red_min)) * (float)255);
+  htcs2Ptr -> green_calibrated = (float)(((green_value - (float)(data->green_min)) / (float)(data->green_max - (float)data->green_min)) * (float)255);
+  htcs2Ptr -> blue_calibrated  = (float)(((blue_value -  (float)(data->blue_min)) /  (float)(data->blue_max - (float)data->blue_min)) * (float)255);
+
   RGBtoHSV(htcs2Ptr->red, htcs2Ptr->green, htcs2Ptr->blue, &htcs2Ptr->hue, &htcs2Ptr->saturation, &htcs2Ptr->value);
+  RGBtoHSV(htcs2Ptr->red_calibrated, htcs2Ptr->green_calibrated, htcs2Ptr->blue_calibrated, &htcs2Ptr->hue_calibrated, &htcs2Ptr->saturation_calibrated, &htcs2Ptr->value_calibrated);
 
   return true;
 }
 
-bool readSensorNorm(tHTCS2Ptr htcs2Ptr)
+bool readSensorRaw(tHTCS2Ptr htcs2Ptr, CalibrationPtr data)
 {
+  memset(htcs2Ptr->I2CData.request, 0, sizeof(htcs2Ptr->I2CData.request));
+
+  htcs2Ptr->I2CData.request[0] = 2;                         // Message size
+  htcs2Ptr->I2CData.request[1] = htcs2Ptr->I2CData.address; // I2C Address
+  htcs2Ptr->I2CData.request[2] = HTCS2_OFFSET + HTCS2_COLNUM_REG;
+  htcs2Ptr->I2CData.replyLen = 8;
+  htcs2Ptr->I2CData.requestLen = 2;
+
+  if (!writeI2C(&htcs2Ptr->I2CData))
+    return false;
+  
+  short red_value   = (short)htcs2Ptr -> I2CData.reply[0] * 256 + (short)htcs2Ptr -> I2CData.reply[1];
+  short green_value = (short)htcs2Ptr -> I2CData.reply[2] * 256 + (short)htcs2Ptr -> I2CData.reply[3];
+  short blue_value  = (short)htcs2Ptr -> I2CData.reply[4] * 256 + (short)htcs2Ptr -> I2CData.reply[5];
+
+  htcs2Ptr->red 	= red_value;
+  htcs2Ptr->green = green_value;
+  htcs2Ptr->blue	= blue_value;
+  htcs2Ptr->white	= (short)htcs2Ptr -> I2CData.reply[6] * 256 + (short)htcs2Ptr -> I2CData.reply[7];
+
+  htcs2Ptr -> red_calibrated   = (float)((((float)red_value -   (float)(data->red_min))   / ((float)data->red_max -   (float)data->red_min)) * (float)255);
+  htcs2Ptr -> green_calibrated = (float)((((float)green_value - ((float)data->green_min)) / ((float)data->green_max - (float)data->green_min)) * (float)255);
+  htcs2Ptr -> blue_calibrated  = (float)((((float)blue_value -  ((float)data->blue_min)) /  ((float)data->blue_max - (float)data->blue_min)) * (float)255);
+
+  RGBtoHSV(htcs2Ptr->red_calibrated, htcs2Ptr->green_calibrated, htcs2Ptr->blue_calibrated, &htcs2Ptr->hue_calibrated, &htcs2Ptr->saturation_calibrated, &htcs2Ptr->value_calibrated);
   return true;
 }
 
-bool readSensorRaw(tHTCS2Ptr htcs2Ptr)
-{
-  return true;
-}
 
-/**
- * Send a command to the sensor
- *
- * Note: this is an internal function and should not be called directly.
- * @param htcs2Ptr pointer to the sensor's data struct
- * @return true if no error occured, false if it did
- */
 bool _sensorSendCommand(tHTCS2Ptr htcs2Ptr) {
   bool retVal = false;
 
@@ -197,7 +155,7 @@ bool _sensorSendCommand(tHTCS2Ptr htcs2Ptr) {
   htcs2Ptr->I2CData.request[0] = 3;              // Message size
   htcs2Ptr->I2CData.request[1] = HTCS2_I2C_ADDR; // I2C Address
   htcs2Ptr->I2CData.request[2] = HTCS2_CMD_REG;  // Command register
-  htcs2Ptr->I2CData.request[3] = htcs2Ptr->_cmd;        // Command to be sent
+  htcs2Ptr->I2CData.request[3] = htcs2Ptr->_cmd; // Command to be sent
 
   retVal = writeI2C(&htcs2Ptr->I2CData);
   htcs2Ptr->_cmd = HTCS2_MODE_ACTIVE;
@@ -205,7 +163,4 @@ bool _sensorSendCommand(tHTCS2Ptr htcs2Ptr) {
   return retVal;
 }
 
-#endif // __HTCS2_H__
-
-/* @} */
-/* @} */
+#endif
