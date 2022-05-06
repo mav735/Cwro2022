@@ -15,10 +15,8 @@ void InitCubes()
 void takeCube(short cubeCol)
 {
     // захват кубика
-    moveMotorTarget(grabMotor, 1000, -80);
-    waitUntilMotorStop(grabMotor);
-    moveMotorTarget(grabMotor, 1000, 80);
-    waitUntilMotorStop(grabMotor);
+    moveMotor(grabMotor, -1335, -100, 1);
+    moveMotor(grabMotor, 1307, 100, 1);
 
     // записать кубик
     arr_push_back(arr_objectsInRobot, cubeCol);
@@ -27,13 +25,12 @@ void takeCube(short cubeCol)
 int throwCube()
 {
     // бросить кубик
-    moveMotorTarget(waterMotor, 300, -50);
-    waitUntilMotorStop(waterMotor);
-    moveMotorTarget(waterMotor, 300, 100);
-    waitUntilMotorStop(waterMotor);
+    moveMotor(waterMotor, -300, -50, 1);
+    moveMotor(waterMotor, 295, 50, 0);
 
     // выписать кубик
-    return arr_cutFirst(arr_objectsInRobot);
+    //return arr_cutFirst(arr_objectsInRobot);
+    return 0;
 }
 
 long getFirstCube()
@@ -43,17 +40,16 @@ long getFirstCube()
 
 void putWaterOnTable()
 {
-    moveMotorTarget(waterMotor, 300, -50);
-    waitUntilMotorStop(waterMotor);
+    moveMotor(waterMotor, -180, -45, 1);
 }
 
 task waterUp()
 {
-    setMotorSpeed(waterMotor, 50);
+    setMotorSpeed(waterMotor, 100);
     sleep(1500);
-    setMotorBrakeMode(waterMotor, motorCoast);
+    brakeWaterMotor();
     sleep(200);
-    setMotorBrakeMode(waterMotor, motorBrake);
+    brakeWaterMotor(1);
 }
 
 void setBottle(short bottle_num, short new_val)
@@ -82,16 +78,15 @@ short getBottleVal(short bottle_num)
 
 void takeBall()
 {
-    moveMotorTarget(grabMotor, 600, -50);
-    waitUntilMotorStop(grabMotor);
+    moveMotor(grabMotor, 50, 50, 1);
 }
 
 void throwBall_firstPart()
 {
-    moveMotorTarget(grabMotor, 400, 50);
+    moveMotor(grabMotor, 400, 50, 1);
 }
 
 task throwBall_secondPart()
 {
-    moveMotorTarget(grabMotor, 200, 50);
+    moveMotor(grabMotor, 200, 50, 1);
 }

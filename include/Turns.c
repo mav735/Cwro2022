@@ -8,6 +8,8 @@ void PointTurn(float point_x, float point_y, float w_degrees, char type_move, fl
 	float w_cof = 1;
 	float tank_cof = 1;
 
+	pr_error_tacho = 0;
+
 	if (point_x >= axleTrack / 2) {
 		right_w_radius = point_x - axleTrack / 2;
 		left_w_radius = point_x + axleTrack / 2;
@@ -118,6 +120,8 @@ void PointTurn(float point_x, float point_y, float w_degrees, char type_move, fl
 		moved_motor = fabs(MotorAbsMovedDegrees(max_motor, start_enc_max));
 		now_millimeters = DegreesToMillimeters(moved_motor);
 	}
+
+	pr_error_tacho = 0;
 }
 
 void LeftWheelTurn(float w_degrees){

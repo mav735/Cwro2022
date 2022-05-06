@@ -9,7 +9,7 @@
     6 - white
 */
 
-void leftRoom(short markerLeft)
+short leftRoom(short markerLeft)
 {
     // заезд в комнату
     AccelerationLinePID(110);
@@ -119,11 +119,12 @@ void leftRoom(short markerLeft)
             // доезда до шарика
             TankTurn(120);
             AccelerationDist(-100);
+            BrakeLeftRightMotor(1);
 
             // взять шарик
             takeBall();
 
-            // доехать до лунки и скинуть шарик
+            // доехать до лунки и скинуть шарикx
             AccelerationDist(100);
             TankTurn(60);
             AccelerationDist(-100);
@@ -142,6 +143,7 @@ void leftRoom(short markerLeft)
     }
 
     // комната заканчивается там же, где и начинается, но с противоположным градусом поворота робота
+    return washLeftRoom;
 }
 
 void Rooms()
@@ -159,5 +161,5 @@ void Rooms()
     AbsTurn(360);
 
     // leftRoom
-    leftRoom(markerLeft);
+    short washLeftRoom = leftRoom(markerLeft);
 }

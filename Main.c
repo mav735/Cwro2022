@@ -16,22 +16,35 @@
 #include <include/TachoPID.c>
 #include <include/LinePID.c>
 #include <include/Turns.c>
-#include <include/Manipulators.c>
+#include <include/Manipulators.c>0
 #include <include/Route.c>
 #include <include/Logic.c>
 
 task main() {
-	NOW_ANGLE = 180;
+	datalogOpen(0, 4, false);
+
+	// use this for real speed
+	startTask(speedyBobot, 255);
+
 	//initSensor(&colorRightSensor, HTright, HTCS2_MODE_ACTIVE);
-	initSensor(&colorLeftSensor, HTleft, HTCS2_MODE_ACTIVE);
-	SetModeHitech(&colorLeftSensor, HTCS2_MODE_RAW);
+	//initSensor(&colorLeftSensor, HTleft, HTCS2_MODE_ACTIVE);
+	//SetModeHitech(&colorLeftSensor, HTCS2_MODE_RAW);
 	InitCalibrationNormal();
 	InitCalibrationRaw();
 	InitMarkerCallibrationRaw();
 	InitWashCallibrationRaw();
 
 	NOW_ANGLE = 90;
-	Rooms();
+
+	for (int i = 0; i < 100; i++){
+		setMotorSpeed(leftMotor, i);
+		sleep(90);
+	}
+	for (int i = 100; i > 0; i -= 1){
+		setMotorSpeed(leftMotor, i);
+		sleep(90);
+	}
 
 	//LCDWriteInfoHitechRaw(&colorLeftSensor, &WashInfoRawLeft);
+	datalogClose();
 }

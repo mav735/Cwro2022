@@ -35,7 +35,8 @@ void LCDWriteInfoNXTSen()
   }
 }
 
-void swap(long *ptr1, long *ptr2){
+void swap(long *ptr1, long *ptr2)
+{
   long buffer = *ptr1;
   *ptr1 = *ptr2;
   *ptr2 = buffer;
@@ -79,4 +80,34 @@ int arr_cutFirst(Array arr)
   }
 
   return val;
+}
+
+const float SPEEDY_BOBOT_GEARS[4] = {0, 30, 55, 101};
+const float SPEEDY_BOBOT_SOUNDS_MIN = 2000;
+const float SPEEDY_BOBOT_SOUNDS_MAX = 2100;
+
+task speedyBobot()
+{
+  setSoundVolume(1);
+  while (1 == 1)
+  {
+    short speedyBobot_gearNow = 0;
+    // float speedyBobot_speedNow = (abs(getMotorSpeed(leftMotor)) + abs(getMotorSpeed(rightMotor))) / 2;
+    float speedyBobot_speedNow = abs(getMotorSpeed(leftMotor));
+    for (short speedyBobot_i = 1; speedyBobot_i < 4; speedyBobot_i++)
+    {
+      if (speedyBobot_speedNow < SPEEDY_BOBOT_GEARS[speedyBobot_i])
+      {
+        speedyBobot_gearNow = speedyBobot_i - 1;
+        break;
+      }
+    }
+
+    if (speedyBobot_gearNow > 0)
+    {
+      float speedyBobot_freq = (speedyBobot_speedNow - SPEEDY_BOBOT_GEARS[speedyBobot_gearNow]) / (SPEEDY_BOBOT_GEARS[speedyBobot_gearNow + 1] - SPEEDY_BOBOT_GEARS[speedyBobot_gearNow]) * (SPEEDY_BOBOT_SOUNDS_MAX - SPEEDY_BOBOT_SOUNDS_MIN) + SPEEDY_BOBOT_SOUNDS_MIN;
+      playTone(speedyBobot_freq, 1);
+    }
+    sleep(10);
+  }
 }
