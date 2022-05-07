@@ -78,7 +78,12 @@ void AccelerationDist(float len_millimeters, float speed_up_part = 0.5, float st
 	
 	turn_pair.max_motor_enc = enc_right_motor;
 	turn_pair.min_motor_enc = enc_left_motor;
-	int sgn_speed = sgn(start_speed);
+
+	int sgn_speed = sgn(len_millimeters);
+	len_millimeters = fabs(len_millimeters);
+	speed *= sgn_speed;
+	start_speed *= sgn_speed;
+
 	while(now_millimeters < len_millimeters * speed_up_part) {
 		speed = SpeedCounter(start_speed, sgn_speed, getTimerValue(T1) - start_time);
 		if (fabs(speed) > max_speed_const) {

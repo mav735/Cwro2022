@@ -65,7 +65,7 @@ void Take_bottles(){
     BrakeLeftRightMotor(1);
     delay(100);
     setMotorSpeed(elevatorMotor, -80);
-    AccelerationDist(390, 0.4, -15);
+    AccelerationDist(-390, 0.4);
     BrakeLeftRightMotor(1);
     setMotorSpeed(elevatorMotor, 80);
     delay(100);
