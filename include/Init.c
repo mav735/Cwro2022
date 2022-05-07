@@ -218,21 +218,21 @@ void InitCalibrationRaw(){
 }
 
 void InitMarkerCallibrationRaw() {
-	MarkerInfoRawLeft.red_max = 60;
-	MarkerInfoRawLeft.green_max = 92;
-	MarkerInfoRawLeft.blue_max = 60;
+	MarkerInfoRawLeft.red_max = 58;
+	MarkerInfoRawLeft.green_max = 90;
+	MarkerInfoRawLeft.blue_max = 58;
 
-	MarkerInfoRawLeft.red_min = 18;
-	MarkerInfoRawLeft.green_min = 36;
+	MarkerInfoRawLeft.red_min = 19;
+	MarkerInfoRawLeft.green_min = 37;
 	MarkerInfoRawLeft.blue_min = 26;
 
-	MarkerInfoRawRight.red_max = 60;
-	MarkerInfoRawRight.green_max = 55;
-	MarkerInfoRawRight.blue_max = 54;
+	MarkerInfoRawRight.red_max = 44;
+	MarkerInfoRawRight.green_max = 71;
+	MarkerInfoRawRight.blue_max = 47;
 
-	MarkerInfoRawRight.red_min = 1;
-	MarkerInfoRawRight.green_min = 2;
-	MarkerInfoRawRight.blue_min = 2;
+	MarkerInfoRawRight.red_min = 15;
+	MarkerInfoRawRight.green_min = 31;
+	MarkerInfoRawRight.blue_min = 22;
 }
 
 void InitWashCallibrationRaw (){

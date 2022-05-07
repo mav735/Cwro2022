@@ -21,12 +21,10 @@
 
 task main() {
 	NOW_ANGLE = 180;
-	initSensor(&colorRightSensor, HTright, HTCS2_MODE_RAW);
-	initSensor(&colorLeftSensor,  HTleft,  HTCS2_MODE_RAW);
-
-	InitCalibrationRaw();
+	initSensor(&colorRightSensor, HTright, HTCS2_MODE_PASSIVE);
+	initSensor(&colorLeftSensor,  HTleft,  HTCS2_MODE_PASSIVE);
 	InitMarkerCallibrationRaw();
-	InitWashCallibrationRaw();
 
-  	LCDWriteInfoHitechRaw(&colorLeftSensor, &MarkerInfoRawLeft);
+	Take_bottles();
+	Move_1_13_sensor_on_line();
 }
