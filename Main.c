@@ -17,14 +17,22 @@
 #include <include/LinePID.c>
 #include <include/Turns.c>
 #include <include/Manipulators.c>
+#include <include/Scanning.c>
 #include <include/Route.c>
 
 task main() {
 	NOW_ANGLE = 180;
-	initSensor(&colorRightSensor, HTright, HTCS2_MODE_PASSIVE);
-	initSensor(&colorLeftSensor,  HTleft,  HTCS2_MODE_PASSIVE);
+	initSensor(&colorRightSensor, HTright, HTCS2_MODE_RAW);
+	initSensor(&colorLeftSensor,  HTleft,  HTCS2_MODE_RAW);
 	InitMarkerCallibrationRaw();
+	InitWashCallibrationRaw();
 
-	Take_bottles();
-	Move_1_13_sensor_on_line();
+	LCDWriteInfoHitechRaw(&colorLeftSensor, &WashInfoRawLeft);
+
+	Move_1_19_with_reading();
+	blue_room();
+
+	displayCenteredTextLine(6, "left: %c      right: 	%c", left_indicator, right_indicator);
+	delay(4000);
+	stopAllTasks();
 }

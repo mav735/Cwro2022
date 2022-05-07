@@ -26,10 +26,42 @@ void Move_1_13_sensor_on_line(){
 
 void Move_1_19(){
     AbsTurn(180);
-    AccelerationLinePID(170, 0);
+    AccelerationLinePID(190, 0);
     PointTurn(176, 0, 90, 1);
     AccelerationLinePID(717 - BetweenSensorsAndMiddle, 1);
     AccelerationDist(BetweenSensorsAndMiddle);
+    EditAngle(270);
+}
+
+void Move_1_19_with_reading(){
+    AbsTurn(180);
+    AccelerationLinePID(170, 0, 1);
+    short now_speed = fabs(getMotorSpeed(leftMotor));
+    PointTurn(176, 0, 90, 1, 0.8, now_speed);
+
+    now_speed = fabs(getMotorSpeed(leftMotor));
+    AccelerationLinePID(530 - BetweenSensorsAndMiddle, 0, 0, now_speed);
+    BrakeLeftRightMotor(0);
+
+    ReadIndicator(50, 50);
+
+    AccelerationLinePID(147 - BetweenSensorsAndMiddle, 1, 0, now_speed);
+    AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0, 0);
+    BrakeLeftRightMotor(1);
+
+    if (ht_results[0] > 300){
+		left_indicator = 'W';
+	}
+	else{
+		left_indicator = 'G';
+	}
+	
+	if (ht_results[1] > 300){
+		right_indicator = 'W';
+	}
+	else{
+		right_indicator = 'G';
+	}
     EditAngle(270);
 }
 
@@ -75,19 +107,25 @@ void Take_bottles(){
     EditAngle(180);
 }
 
-void Yellow_room(char cube_color, char indicator_color){
-    if (indicator_color == 3 && cube_color != 0){
-        AbsTurn(180);
-        AccelerationLinePID(160 - BetweenSensorsAndMiddle, 0);
-        RightWheelTurn(75);
-        RightWheelTurn(-70);
+void bottles(){
+    if (cube != 'N'){
+        TankTurn(-35);
+        Paws('o');
+        AccelerationDist(BetweenSensorsAndMiddle);
         BrakeLeftRightMotor(1);
-
-        MainManipulator('b');
-
-        AccelerationDist(245);
+        Paws('c');
+        TankTurn(-55);
         BrakeLeftRightMotor(1);
-        
     }
-    
+}
+
+void blue_room(){
+    AbsTurn(180);
+    AccelerationLinePID(190 - BetweenSensorsAndMiddle, 0);
+    AccelerationDist(90);
+    BrakeLeftRightMotor(1);
+
+    if (left_indicator == 'W'){
+            
+    }
 }

@@ -16,5 +16,3 @@ Arraysensors* SensorsToPercent () {
 
 	return array_pointer;
 }
-
-
