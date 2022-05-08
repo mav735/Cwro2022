@@ -16,15 +16,21 @@
 #include <include/TachoPID.c>
 #include <include/LinePID.c>
 #include <include/Turns.c>
-#include <include/Manipulators.c>0
+#include <include/Manipulators.c>
 #include <include/Route.c>
 #include <include/Logic.c>
 
 task main() {
+	AccelerationDist(180, 0.000001);
+	BrakeLeftRightMotor(1);
+	sleep(10000);
+
+	check_battery();
+
 	datalogOpen(0, 4, false);
 
 	// use this for real speed
-	startTask(speedyBobot, 255);
+	//startTask(speedyBobot, 255);
 
 	//initSensor(&colorRightSensor, HTright, HTCS2_MODE_ACTIVE);
 	//initSensor(&colorLeftSensor, HTleft, HTCS2_MODE_ACTIVE);
@@ -36,14 +42,11 @@ task main() {
 
 	NOW_ANGLE = 90;
 
-	for (int i = 0; i < 100; i++){
-		setMotorSpeed(leftMotor, i);
-		sleep(90);
-	}
-	for (int i = 100; i > 0; i -= 1){
-		setMotorSpeed(leftMotor, i);
-		sleep(90);
-	}
+	setBottle(0, 1);
+	setBottle(1, 0);
+	startTask(waterUp);
+	Rooms();
+
 
 	//LCDWriteInfoHitechRaw(&colorLeftSensor, &WashInfoRawLeft);
 	datalogClose();

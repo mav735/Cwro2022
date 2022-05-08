@@ -5,31 +5,38 @@ Array arr_objectsInRobot;
 
 void InitCubes()
 {
-	int objectsInRobot[5];
+    int objectsInRobot[5];
     arr_objectsInRobot.pointer = &objectsInRobot[0];
     arr_objectsInRobot.len = sizeof(objectsInRobot) / sizeof(objectsInRobot[0]);
 
     arr_fill(arr_objectsInRobot, -228);
 }
 
+task openGrabers()
+{
+    moveMotor(grabMotor, -537, -100, 1);
+    moveMotor(grabMotor, 1333, 100, 1);
+}
+
 void takeCube(short cubeCol)
 {
-    // захват кубика
-    moveMotor(grabMotor, -1335, -100, 1);
-    moveMotor(grabMotor, 1307, 100, 1);
-
     // записать кубик
     arr_push_back(arr_objectsInRobot, cubeCol);
+
+    // захват кубика
+    moveMotor(grabMotor, -800, -70, 0)
 }
 
 int throwCube()
 {
     // бросить кубик
-    moveMotor(waterMotor, -300, -50, 1);
-    moveMotor(waterMotor, 295, 50, 0);
+    setMotorSpeed(waterMotor, -50);
+    sleep(600);
+    setMotorSpeed(waterMotor, 100);
+    sleep(500);
 
     // выписать кубик
-    //return arr_cutFirst(arr_objectsInRobot);
+    // arr_cutFirst(arr_objectsInRobot);
     return 0;
 }
 
@@ -38,17 +45,29 @@ long getFirstCube()
     return arr_objectsInRobot.pointer[0];
 }
 
-void putWaterOnTable()
+void putWaterOnTable(char type)
 {
-    moveMotor(waterMotor, -180, -45, 1);
+    if (type == 0)
+    {
+        moveMotor(waterMotor, -215, -32, 1);
+    }
+    else
+    {
+        // правая вода
+        moveMotor(waterMotor, -215, -29, 1);
+    }
+    // sleep(150);
 }
 
 task waterUp()
 {
-    setMotorSpeed(waterMotor, 100);
-    sleep(1500);
-    brakeWaterMotor();
+    setMotorSpeed(waterMotor, 15);
     sleep(200);
+    setMotorSpeed(waterMotor, 60);
+    sleep(150);
+    brakeWaterMotor(1);
+    setMotorSpeed(waterMotor, 30);
+    sleep(600);
     brakeWaterMotor(1);
 }
 
@@ -78,7 +97,7 @@ short getBottleVal(short bottle_num)
 
 void takeBall()
 {
-    moveMotor(grabMotor, 50, 50, 1);
+    moveMotor(grabMotor, 650, -50, 1);
 }
 
 void throwBall_firstPart()

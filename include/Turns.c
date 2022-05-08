@@ -170,5 +170,7 @@ void EditAngle(float need_angle){
 }
 
 void MoveBeforeTurn(){
-	AccelerationDist(BetweenSensorsAndMiddle);
+	AccelerationDist(BetweenSensorsAndMiddle - 15);
+	BrakeLeftRightMotor(1);
+	sleep(150);
 }

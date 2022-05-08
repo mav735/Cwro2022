@@ -12,70 +12,75 @@
 short leftRoom(short markerLeft)
 {
     // заезд в комнату
-    AccelerationLinePID(110);
-    AccelerationDist(190);
-    BrakeLeftRightMotor(1);
+    AccelerationLinePID(130);
 
     // считывание белья
     short washLeftRoom = 0;
+    AccelerationDist(200);
 
     // движения в комнате
     // если вода
     if (markerLeft == 6)
     {
         // доворот до белья и воды
-        AccelerationDist(100);
-        RightWheelTurn(-90);
+        AccelerationDist(75);
+        LeftWheelTurn(-90);
         BrakeLeftRightMotor(1);
 
         // если белье есть
         if (washLeftRoom != 0)
         {
             takeCube(washLeftRoom);
+            startTask(openGrabers);
         }
+        AccelerationDist(20);
 
-        // если левая вода есть
-        if (getBottleVal(0) != 0)
-        {
-            // выкладывание левой воды
-            LeftWheelTurn(20);
-            BrakeLeftRightMotor(1);
-            putWaterOnTable();
-
-            //выписка воды
-            setBottle(0, 0);
-
-            //отъезд назад
-            AccelerationDist(-100);
-            BrakeLeftRightMotor(1);
-            startTask(waterUp);
-            TankTurn(60);
-            BrakeLeftRightMotor(1);
-
-            // возврат на линию
-            AccelerationDist(200);
-            AccelerationLinePID(100, 1);
-            MoveBeforeTurn();
-        }
-        else
+        // если правая вода есть
+        if (getBottleVal(1) != 0)
         {
             // выкладывание правой воды
-            RightWheelTurn(20);
+            LeftWheelTurn(34);
             BrakeLeftRightMotor(1);
-            putWaterOnTable();
+            putWaterOnTable(1);
 
             //выписка воды
             setBottle(1, 0);
 
             //отъезд назад
-            AccelerationDist(-100);
-            BrakeLeftRightMotor(1);
+            AccelerationDist(-32);
             startTask(waterUp);
-            TankTurn(70);
+            BrakeLeftRightMotor(1);
+            sleep(100);
+            AccelerationDist(36.5);
+            TankTurn(132);
             BrakeLeftRightMotor(1);
 
             // возврат на линию
-            AccelerationDist(200);
+            AccelerationDist(150);
+            AccelerationLinePID(100, 1);
+            MoveBeforeTurn();
+        }
+        else
+        {
+            // выкладывание левой воды
+            RightWheelTurn(45);
+            BrakeLeftRightMotor(1);
+            putWaterOnTable(0);
+
+            //выписка воды
+            setBottle(0, 0);
+
+            //отъезд назад
+            AccelerationDist(-32);
+            startTask(waterUp);
+            BrakeLeftRightMotor(1);
+            sleep(100);
+            AccelerationDist(30);
+            TankTurn(59);
+            BrakeLeftRightMotor(1);
+
+            // возврат на линию
+            AccelerationDist(150);
             AccelerationLinePID(100, 1);
             MoveBeforeTurn();
         }
@@ -87,7 +92,6 @@ short leftRoom(short markerLeft)
         if (washLeftRoom != 0)
         {
             // доворот до белья
-            AccelerationDist(100);
             RightWheelTurn(-90);
             BrakeLeftRightMotor(1);
 
@@ -116,15 +120,19 @@ short leftRoom(short markerLeft)
         // если белья нет
         else
         {
-            // доезда до шарика
-            TankTurn(120);
-            AccelerationDist(-100);
+            // доезд до шарика
+            AccelerationDist(75.4);
+            TankTurn(123);
+            AccelerationDist(-43.6, 0.001, 10);
             BrakeLeftRightMotor(1);
+            waitForButtonPress();
 
             // взять шарик
             takeBall();
 
             // доехать до лунки и скинуть шарикx
+            flushButtonMessages();
+            waitForButtonPress();
             AccelerationDist(100);
             TankTurn(60);
             AccelerationDist(-100);
@@ -149,14 +157,13 @@ short leftRoom(short markerLeft)
 void Rooms()
 {
     // движение до линии с маркерами
-    AccelerationLinePID(160, 1);
+    AccelerationLinePID(405, 1);
 
     // где-то тут считывание маркеров
     short markerLeft = 0;
     short markerRight = 0;
 
     // движение к комнате
-    AccelerationLinePID(120, 1);
     MoveBeforeTurn();
     AbsTurn(360);
 

@@ -65,9 +65,26 @@ void brakeGrabMotor(char stop_type = 0)
 	setMotorSpeed(grabMotor, 0);
 }
 
-void moveMotor(tMotor motor, int deg, short speed, char stop){
+void stopMotor(tMotor motor_name, char stop_type = 0)
+{
+	if (stop_type)
+	{
+		setMotorBrakeMode(motor_name, motorBrake);
+	}
+	else
+	{
+		setMotorBrakeMode(motor_name, motorCoast);
+	}
+	setMotorSpeed(motor_name, 0);
+}
+
+void moveMotor(tMotor motor, int deg, short speed, char stop)
+{
 	int start_deg = getMotorEncoder(motor);
 	setMotorSpeed(motor, speed);
-	while (MotorAbsMovedDegrees(motor, start_deg) < fabs(deg)){};
-	brakeGrabMotor(stop);
+	while (MotorAbsMovedDegrees(motor, start_deg) < fabs(deg))
+	{
+	};
+	stopMotor(motor, stop);
 }
+

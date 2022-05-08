@@ -54,7 +54,7 @@ void AccelerationLinePID(float len_millimeters, int line_stop = 0, float speed_u
 	}
 
 	if (line_stop == 1) {
-		while ((results_sensors -> firstSensor > 80) || (results_sensors -> secondSensor > 80)){
+		while ((results_sensors -> firstSensor > 20) || (results_sensors -> secondSensor > 20)){
       		DrivePID(start_speed);
     	}
 	}
@@ -79,10 +79,15 @@ void AccelerationDist(float len_millimeters, float speed_up_part = 0.5, float st
 	turn_pair.max_motor_enc = enc_right_motor;
 	turn_pair.min_motor_enc = enc_left_motor;
 
+	int sgn_speed = sgn(len_millimeters);
+	len_millimeters = fabs(len_millimeters);
+	speed *= sgn_speed;
+	start_speed *= sgn_speed;
+
 	while(now_millimeters < len_millimeters * speed_up_part) {
-		speed = SpeedCounter(start_speed, 1, getTimerValue(T1) - start_time);
-		if (speed > max_speed_const) {
-			speed = max_speed_const;
+		speed = SpeedCounter(start_speed, sgn_speed, getTimerValue(T1) - start_time);
+		if (fabs(speed) > max_speed_const) {
+			speed = max_speed_const * sgn_speed;
 		}
 
 		DrivePIDTacho(speed, turn_pair);
@@ -94,9 +99,9 @@ void AccelerationDist(float len_millimeters, float speed_up_part = 0.5, float st
 	float max_part_speed = speed;
 	start_time = getTimerValue(T1);
 	while(now_millimeters < len_millimeters) {
-		speed = SpeedCounter(max_part_speed, -1, getTimerValue(T1) - start_time);
-		if (speed < min_speed_const) {
-			speed = min_speed_const;
+		speed = SpeedCounter(max_part_speed, sgn_speed * -1, getTimerValue(T1) - start_time);
+		if (fabs(speed) < min_speed_const) {
+			speed = min_speed_const * sgn_speed;
 		}
 		
 		DrivePIDTacho(speed, turn_pair);
