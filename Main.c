@@ -27,12 +27,11 @@ task main() {
 	InitMarkerCallibrationRaw();
 	InitWashCallibrationRaw();
 
-	LCDWriteInfoHitechRaw(&colorLeftSensor, &WashInfoRawLeft);
-
 	Move_1_19_with_reading();
-	blue_room();
-
-	displayCenteredTextLine(6, "left: %c      right: 	%c", left_indicator, right_indicator);
+	yellow_room();
+	BrakeLeftRightMotor(1);
+	Paws('c');
+	displayCenteredTextLine(6, "right: %c", right_indicator);
 	delay(4000);
 	stopAllTasks();
 }

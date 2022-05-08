@@ -1,7 +1,7 @@
 task ZeroMotorPaw(){
-    short speed = -20;
+    short speed = -30;
     if (getMotorEncoder(elevatorMotor) < 0){
-        speed = 20;
+        speed = 30;
     }
 
     setMotorSpeed(elevatorMotor, speed);
@@ -12,7 +12,7 @@ task ZeroMotorPaw(){
 
 void Paws(char action){
     if (action == 'o'){
-        moveMotorTarget(elevatorMotor, 130, 100);
+        moveMotorTarget(elevatorMotor, 180, 100);
     }
     else if (action == 'c'){
         startTask(ZeroMotorPaw, 7);
@@ -42,21 +42,8 @@ void MainManipulator(char action){
 
 void GrabManipulator(char action){
     if (action == 'b'){ //ball
-        setMotorSpeed(elevatorMotor, 100);
-        delay(680);
-        setMotorSpeed(elevatorMotor, 0);
-    }
-    else if (action == 'w'){ //water
-        setMotorSpeed(elevatorMotor, -100);
-        delay(500);
-        setMotorSpeed(elevatorMotor, 0);
-    }
-    else if (action == 't'){ //water
-        setMotorSpeed(elevatorMotor, -100);
-        delay(270);
-        setMotorSpeed(elevatorMotor, 0);
-    }
-    else if (action == 'c'){ //in stock pos
-        startTask(ZeroMotorPaw, 7);
+        setMotorSpeed(grabMotor, 100);
+        delay(600);
+        setMotorSpeed(grabMotor, 0);
     }
 }

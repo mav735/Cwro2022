@@ -1,9 +1,9 @@
-const float Kp = 0.2;
+const float Kp = 0.3;
 const float Ki = 0;
-const float Kd = 7.6;
+const float Kd = 7.7;
 
 const float Kp_tacho = 0.2;
-const float Ki_tacho = 0.5;
+const float Ki_tacho = 0.3;
 const float Kd_tacho = 4;
 
 const float axleTrack = 175.5;

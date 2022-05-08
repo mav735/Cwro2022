@@ -35,7 +35,7 @@ void Move_1_19(){
 
 void Move_1_19_with_reading(){
     AbsTurn(180);
-    AccelerationLinePID(170, 0, 1);
+    AccelerationLinePID(160, 0, 1);
     short now_speed = fabs(getMotorSpeed(leftMotor));
     PointTurn(176, 0, 90, 1, 0.8, now_speed);
 
@@ -121,11 +121,69 @@ void bottles(){
 
 void blue_room(){
     AbsTurn(180);
-    AccelerationLinePID(190 - BetweenSensorsAndMiddle, 0);
-    AccelerationDist(90);
+    AccelerationLinePID(187 - BetweenSensorsAndMiddle, 0);
+    AccelerationDist(95);
     BrakeLeftRightMotor(1);
+    waitForButtonPress();
+    ReadLeftWash(33, 20);
+    BrakeLeftRightMotor(1);
+    if (cube != 'N'){
+        if (left_indicator == 'G'){
+            setMotorSpeed(elevatorMotor, 100);
+        }
+        else{
+            Paws('o');
+        }
+        TankTurn(-60);
+        AccelerationDist(160, 0);
+    }
+    playSound(soundFastUpwardTones);
+    BrakeLeftRightMotor(1);
+    waitForButtonPress();
+    if (left_indicator == 'G'){
+        LeftWheelTurn(50);
+    }
+    else{
+        TankTurn(-40);
+    }
+}
 
-    if (left_indicator == 'W'){
-            
+void yellow_room(){
+    AbsTurn(360);
+    AccelerationLinePID(192 - BetweenSensorsAndMiddle, 0);
+    AccelerationDist(75);
+    BrakeLeftRightMotor(1);
+    ReadRightWash(33, 20);
+    
+    if (cube != 'N'){
+        if (right_indicator == 'G'){
+            setMotorSpeed(elevatorMotor, 100);
+        }
+        else{
+            Paws('o');
+        }
+        TankTurn(60);
+        AccelerationDist(160, 0);
+        if (right_indicator != 'G'){
+            Paws('c');
+        }
+    }
+    BrakeLeftRightMotor(1);
+    if (right_indicator == 'G'){
+        LeftWheelTurn(33);
+        BrakeLeftRightMotor(1);
+        GrabManipulator('b');
+        Paws('c');
+        TankTurn(-92);
+        BrakeLeftRightMotor(1);
+        AccelerationDist(220, 0);
+        BrakeLeftRightMotor(1);
+        delay(50);
+        setMotorSpeed(grabMotor, -100);
+        delay(100);
+        TankTurn(-110);
+    }
+    else{
+        TankTurn(-40);
     }
 }

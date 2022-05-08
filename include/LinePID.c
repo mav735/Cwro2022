@@ -98,10 +98,14 @@ void AccelerationDist(float len_millimeters, float speed_up_part = 0.5, float st
 
 	float max_part_speed = speed;
 	start_time = getTimerValue(T1);
+	char flag = 1;
 	while(now_millimeters < len_millimeters) {
-		speed = SpeedCounter(max_part_speed, sgn_speed * -1, getTimerValue(T1) - start_time);
+		if (flag){
+			speed = SpeedCounter(max_part_speed, sgn_speed * -1, getTimerValue(T1) - start_time);
+		}
 		if (fabs(speed) < min_speed_const) {
 			speed = min_speed_const * sgn_speed;
+			flag = 0;
 		}
 		
 		DrivePIDTacho(speed, turn_pair);
