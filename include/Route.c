@@ -40,12 +40,12 @@ void Move_1_19_with_reading(){
     PointTurn(176, 0, 90, 1, 0.8, now_speed);
 
     now_speed = fabs(getMotorSpeed(leftMotor));
-    AccelerationLinePID(530 - BetweenSensorsAndMiddle, 0, 0, now_speed);
+    AccelerationLinePID(530 - BetweenSensorsAndMiddle, 0, 0.7, now_speed);
     BrakeLeftRightMotor(0);
 
-    ReadIndicator(50, 50);
+    ReadIndicator(50, 60);
 
-    AccelerationLinePID(147 - BetweenSensorsAndMiddle, 1, 0, now_speed);
+    AccelerationLinePID(147 - BetweenSensorsAndMiddle, 1, 0, 60);
     AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0, 0);
     BrakeLeftRightMotor(1);
 
@@ -121,7 +121,7 @@ void bottles(){
 
 void blue_room(){
     AbsTurn(180);
-    AccelerationLinePID(187 - BetweenSensorsAndMiddle, 0);
+    AccelerationLinePID(187 - BetweenSensorsAndMiddle, 1);
     AccelerationDist(95);
     BrakeLeftRightMotor(1);
     waitForButtonPress();
@@ -135,7 +135,7 @@ void blue_room(){
             Paws('o');
         }
         TankTurn(-60);
-        AccelerationDist(160, 0);
+        AccelerationDist(160);
     }
     playSound(soundFastUpwardTones);
     BrakeLeftRightMotor(1);
@@ -148,42 +148,89 @@ void blue_room(){
     }
 }
 
+void BallRightRoomWithCube(){
+    setMotorSpeed(elevatorMotor, 100);
+    TankTurn(-49);
+
+    AccelerationDist(54, 0);
+    BrakeLeftRightMotor(1);
+
+    setMotorSpeed(grabMotor, 100);
+    delay(50);
+
+    Paws('c');
+    TankTurn(-77.5);
+    AccelerationDist(165);
+    BrakeLeftRightMotor(1);
+    setMotorSpeed(grabMotor, -100);
+    delay(50);
+    AccelerationDist(-25, 0);
+    TankTurn(-117);
+    AccelerationDist(170, 1);
+}
+
+void BallRightRoomNoCube(){
+    setMotorSpeed(elevatorMotor, 100);
+    AccelerationDist(-20);
+    delay(50);
+    BrakeLeftRightMotor(1);
+    TankTurn(30);
+    AccelerationDist(230);
+    BrakeLeftRightMotor(1);
+    setMotorSpeed(grabMotor, 50);
+    delay(70);
+    Paws('c');
+    TankTurn(-102.5);
+    AccelerationDist(110);
+    BrakeLeftRightMotor(1);
+    setMotorSpeed(grabMotor, -100);
+    delay(50);
+    TankTurn(-110);
+    AccelerationDist(170);
+}
+
 void yellow_room(){
     AbsTurn(360);
     AccelerationLinePID(192 - BetweenSensorsAndMiddle, 0);
-    AccelerationDist(75);
+    AccelerationDist(75, 0);
     BrakeLeftRightMotor(1);
     ReadRightWash(33, 20);
-    
+    BrakeLeftRightMotor(1);
+
     if (cube != 'N'){
+        AccelerationDist(-20, 0);
+        TankTurn(60);
+        BrakeLeftRightMotor(1);
+
         if (right_indicator == 'G'){
             setMotorSpeed(elevatorMotor, 100);
         }
         else{
             Paws('o');
         }
-        TankTurn(60);
-        AccelerationDist(160, 0);
+
+        AccelerationDist(190, 0);
+        BrakeLeftRightMotor(1);
+
         if (right_indicator != 'G'){
             Paws('c');
         }
-    }
-    BrakeLeftRightMotor(1);
-    if (right_indicator == 'G'){
-        LeftWheelTurn(33);
-        BrakeLeftRightMotor(1);
-        GrabManipulator('b');
-        Paws('c');
-        TankTurn(-92);
-        BrakeLeftRightMotor(1);
-        AccelerationDist(220, 0);
-        BrakeLeftRightMotor(1);
-        delay(50);
-        setMotorSpeed(grabMotor, -100);
-        delay(100);
-        TankTurn(-110);
+
+        if (right_indicator == 'G'){
+            BallRightRoom();
+            short now_speed = fabs(getMotorSpeed(leftMotor));
+            AccelerationLinePID(190 - BetweenSensorsAndMiddle, 1, 0.6, now_speed);
+            AccelerationLinePID(BetweenSensorsAndMiddle, 0);
+        }
+        else{
+            TankTurn(-40);
+        }
     }
     else{
-        TankTurn(-40);
+        if (right_indicator == 'G'){
+            BallRightRoomNoCube()
+            AccelerationLinePID(190 - BetweenSensorsAndMiddle, 1);
+            AccelerationLinePID(BetweenSensorsAndMiddle, 0);
+        }
     }
 }

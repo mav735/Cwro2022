@@ -21,13 +21,18 @@
 #include <include/Route.c>
 
 task main() {
-	NOW_ANGLE = 180;
+	if (getBatteryVoltage() < 8.0){
+		playSound(soundException);
+		playSound(soundLowBuzzShort);
+	}
+
+	NOW_ANGLE = 360;
 	initSensor(&colorRightSensor, HTright, HTCS2_MODE_RAW);
 	initSensor(&colorLeftSensor,  HTleft,  HTCS2_MODE_RAW);
 	InitMarkerCallibrationRaw();
 	InitWashCallibrationRaw();
 
-	Move_1_19_with_reading();
+	right_indicator = 'G';
 	yellow_room();
 	BrakeLeftRightMotor(1);
 	Paws('c');
