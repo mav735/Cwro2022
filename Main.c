@@ -32,7 +32,7 @@ task main() {
 	InitMarkerCallibrationRaw();
 	InitWashCallibrationRaw();
 
-	right_indicator = 'G';
+	right_indicator = 'W';
 	yellow_room();
 	BrakeLeftRightMotor(1);
 	Paws('c');

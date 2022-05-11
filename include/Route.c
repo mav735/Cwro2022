@@ -164,8 +164,8 @@ void BallRightRoomWithCube(){
     BrakeLeftRightMotor(1);
     setMotorSpeed(grabMotor, -100);
     delay(50);
-    AccelerationDist(-25, 0);
-    TankTurn(-117);
+    AccelerationDist(-15, 0);
+    TankTurn(-112);
     AccelerationDist(170, 1);
 }
 
@@ -175,7 +175,7 @@ void BallRightRoomNoCube(){
     delay(50);
     BrakeLeftRightMotor(1);
     TankTurn(30);
-    AccelerationDist(230);
+    AccelerationDist(220);
     BrakeLeftRightMotor(1);
     setMotorSpeed(grabMotor, 50);
     delay(70);
@@ -187,6 +187,18 @@ void BallRightRoomNoCube(){
     delay(50);
     TankTurn(-110);
     AccelerationDist(170);
+}
+
+void WaterRightRoomWithCube(){
+    Paws('c');
+    TankTurn(40);
+    if (left_bottle){
+        PointTurn(200, 0, -40, 1);
+        BrakeLeftRightMotor(1);
+        MainManipulator('t')
+        AccelerationDist(30, 0);
+        BrakeLeftRightMotor(1);
+    }
 }
 
 void yellow_room(){
@@ -212,18 +224,14 @@ void yellow_room(){
         AccelerationDist(190, 0);
         BrakeLeftRightMotor(1);
 
-        if (right_indicator != 'G'){
-            Paws('c');
-        }
-
         if (right_indicator == 'G'){
-            BallRightRoom();
+            BallRightRoomWithCube();
             short now_speed = fabs(getMotorSpeed(leftMotor));
             AccelerationLinePID(190 - BetweenSensorsAndMiddle, 1, 0.6, now_speed);
             AccelerationLinePID(BetweenSensorsAndMiddle, 0);
         }
         else{
-            TankTurn(-40);
+            WaterRightRoomWithCube()
         }
     }
     else{

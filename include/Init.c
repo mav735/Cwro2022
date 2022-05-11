@@ -6,6 +6,9 @@ const float Kp_tacho = 0.35;
 const float Ki_tacho = 0.32;
 const float Kd_tacho = 5.6;
 
+byte left_bottle = 1;
+byte right_bottle = 1;
+
 const float axleTrack = 175.5;
 const float wheelDiameter = 80;
 const float BetweenSensorsAndMiddle = 73;

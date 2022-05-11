@@ -32,7 +32,7 @@ void MainManipulator(char action){
     }
     else if (action == 't'){ //water
         setMotorSpeed(elevatorMotor, -100);
-        delay(270);
+        delay(500);
         setMotorSpeed(elevatorMotor, 0);
     }
     else if (action == 'c'){ //in stock pos
