@@ -1,7 +1,7 @@
 task ZeroMotorPaw(){
-    short speed = -30;
+    short speed = -40;
     if (getMotorEncoder(elevatorMotor) < 0){
-        speed = 30;
+        speed = 40;
     }
 
     setMotorSpeed(elevatorMotor, speed);

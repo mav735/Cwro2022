@@ -26,14 +26,14 @@ task main() {
 		playSound(soundLowBuzzShort);
 	}
 
-	NOW_ANGLE = 360;
+	NOW_ANGLE = 180;
 	initSensor(&colorRightSensor, HTright, HTCS2_MODE_RAW);
 	initSensor(&colorLeftSensor,  HTleft,  HTCS2_MODE_RAW);
 	InitMarkerCallibrationRaw();
 	InitWashCallibrationRaw();
 
-	right_indicator = 'W';
-	yellow_room();
+	right_indicator = 'G';
+	blue_room();
 	BrakeLeftRightMotor(1);
 	Paws('c');
 	displayCenteredTextLine(6, "right: %c", right_indicator);
