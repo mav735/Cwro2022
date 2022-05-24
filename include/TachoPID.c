@@ -33,3 +33,25 @@ void DrivePIDTacho(int speed, SyncedMotorsPair MotorPair) {
 
 	delay(2);
 }
+
+void moveDriveSync(int deg, short speed, char stop){
+	resetMotorEncoder(leftMotor);
+	resetMotorEncoder(rightMotor);
+	int start_deg_left = getMotorEncoder(leftMotor);
+	int start_deg_right = getMotorEncoder(rightMotor);
+	SyncedMotorsPair turn_pair;
+
+	turn_pair.max_motor_element = rightMotor;
+	turn_pair.min_motor_element = leftMotor;
+
+	turn_pair.speed_cof = -1;
+
+	turn_pair.max_motor_enc = getMotorEncoder(leftMotor);
+	turn_pair.min_motor_enc = getMotorEncoder(rightMotor);
+
+	while (MotorsAbsMovedDegreesLR(start_deg_left, start_deg_right) < fabs(deg))
+	{
+		DrivePidTacho(speed, turn_pair);
+	}
+	BrakeLeftRightMotor(stop);	
+}

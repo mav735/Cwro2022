@@ -87,4 +87,3 @@ void moveMotor(tMotor motor, int deg, short speed, char stop)
 	};
 	stopMotor(motor, stop);
 }
-

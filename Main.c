@@ -21,10 +21,6 @@
 #include <include/Logic.c>
 
 task main() {
-	AccelerationDist(180, 0.000001);
-	BrakeLeftRightMotor(1);
-	sleep(10000);
-
 	check_battery();
 
 	datalogOpen(0, 4, false);
@@ -43,7 +39,7 @@ task main() {
 	NOW_ANGLE = 90;
 
 	setBottle(0, 1);
-	setBottle(1, 0);
+	setBottle(1, 1);
 	startTask(waterUp);
 	Rooms();
 

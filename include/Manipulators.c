@@ -14,8 +14,8 @@ void InitCubes()
 
 task openGrabers()
 {
-    moveMotor(grabMotor, -537, -100, 1);
-    moveMotor(grabMotor, 1333, 100, 1);
+    moveMotor(grabMotor, -1037, -100, 1);
+    moveMotor(grabMotor, 1833, 100, 1);
 }
 
 void takeCube(short cubeCol)
@@ -24,7 +24,7 @@ void takeCube(short cubeCol)
     arr_push_back(arr_objectsInRobot, cubeCol);
 
     // захват кубика
-    moveMotor(grabMotor, -800, -70, 0)
+    moveMotor(grabMotor, -800, -70, 0);
 }
 
 int throwCube()
@@ -49,12 +49,12 @@ void putWaterOnTable(char type)
 {
     if (type == 0)
     {
-        moveMotor(waterMotor, -215, -32, 1);
+        moveMotor(waterMotor, -260, -60, 1);
     }
     else
     {
         // правая вода
-        moveMotor(waterMotor, -215, -29, 1);
+        moveMotor(waterMotor, -214, -28 * (8.1 / getBatteryVoltage()), 1);
     }
     // sleep(150);
 }
@@ -97,15 +97,20 @@ short getBottleVal(short bottle_num)
 
 void takeBall()
 {
-    moveMotor(grabMotor, 650, -50, 1);
+    moveMotor(grabMotor, 1000, -25, 1);
+}
+
+task takeBall_task(){
+    moveMotor(grabMotor, 70, -50, 1);
 }
 
 void throwBall_firstPart()
 {
-    moveMotor(grabMotor, 400, 50, 1);
+    moveMotor(grabMotor, 750, 100, 1);
+    moveMotor(grabMotor, 950, -100, 1);
 }
 
 task throwBall_secondPart()
 {
-    moveMotor(grabMotor, 200, 50, 1);
+    moveMotor(grabMotor, 1250, 100, 1);
 }

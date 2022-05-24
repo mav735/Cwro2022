@@ -32,6 +32,7 @@ short leftRoom(short markerLeft)
         {
             takeCube(washLeftRoom);
             startTask(openGrabers);
+            sleep(200);
         }
         AccelerationDist(20);
 
@@ -39,7 +40,8 @@ short leftRoom(short markerLeft)
         if (getBottleVal(1) != 0)
         {
             // выкладывание правой воды
-            LeftWheelTurn(34);
+            AccelerationDist(5);
+            LeftWheelTurn(28);
             BrakeLeftRightMotor(1);
             putWaterOnTable(1);
 
@@ -47,12 +49,12 @@ short leftRoom(short markerLeft)
             setBottle(1, 0);
 
             //отъезд назад
-            AccelerationDist(-32);
+            AccelerationDist(-35);
             startTask(waterUp);
             BrakeLeftRightMotor(1);
             sleep(100);
-            AccelerationDist(36.5);
-            TankTurn(132);
+            AccelerationDist(39.8);
+            TankTurn(118);
             BrakeLeftRightMotor(1);
 
             // возврат на линию
@@ -63,7 +65,7 @@ short leftRoom(short markerLeft)
         else
         {
             // выкладывание левой воды
-            RightWheelTurn(45);
+            RightWheelTurn(50);
             BrakeLeftRightMotor(1);
             putWaterOnTable(0);
 
@@ -71,12 +73,13 @@ short leftRoom(short markerLeft)
             setBottle(0, 0);
 
             //отъезд назад
-            AccelerationDist(-32);
+            AccelerationDist(-40);
             startTask(waterUp);
             BrakeLeftRightMotor(1);
-            sleep(100);
-            AccelerationDist(30);
-            TankTurn(59);
+            sleep(200);
+            AccelerationDist(37);
+            BrakeLeftRightMotor(1);
+            TankTurn(57);
             BrakeLeftRightMotor(1);
 
             // возврат на линию
@@ -92,28 +95,39 @@ short leftRoom(short markerLeft)
         if (washLeftRoom != 0)
         {
             // доворот до белья
-            RightWheelTurn(-90);
+            AccelerationDist(75);
+            LeftWheelTurn(-81);
             BrakeLeftRightMotor(1);
 
             // взять белье
             takeCube(washLeftRoom);
+            startTask(openGrabers);
+            sleep(2500);
 
             // шарик
-            RightWheelTurn(-90);
-            AccelerationDist(-150);
+            AccelerationDist(-80)
             BrakeLeftRightMotor(1);
+            sleep(300);
+            TankTurn(100, 0, 12);
+            BrakeLeftRightMotor(1);
+            sleep(300);
+            moveDriveSync(-55, -10.5, 1);
             takeBall();
+            startTask(takeBall_task);
+            AccelerationDist(8.5);
+            BrakeLeftRightMotor(1);
 
             // скинуть шарик
-            RightWheelTurn(-87);
-            AccelerationDist(-150);
+            LeftWheelTurn(-94);
+            AccelerationDist(-80);
             BrakeLeftRightMotor(1);
             throwBall_firstPart();
 
             // возврат на линию
-            AccelerationDist(150);
-            TankTurn(-100);
-            AccelerationDist(300);
+            AccelerationDist(18);
+            TankTurn(-96);
+            startTask(throwBall_secondPart);
+            AccelerationDist(205);
             AccelerationLinePID(100, 1);
             MoveBeforeTurn();
         }
@@ -121,32 +135,34 @@ short leftRoom(short markerLeft)
         else
         {
             // доезд до шарика
-            AccelerationDist(75.4);
-            TankTurn(123);
-            AccelerationDist(-43.6, 0.001, 10);
+            AccelerationDist(75.6);
+            TankTurn(123.5, 0, 15);
             BrakeLeftRightMotor(1);
-            waitForButtonPress();
+            moveDriveSync(-66, -11, 1);
 
             // взять шарик
             takeBall();
+            startTask(takeBall_task);
 
             // доехать до лунки и скинуть шарикx
-            flushButtonMessages();
-            waitForButtonPress();
-            AccelerationDist(100);
-            TankTurn(60);
-            AccelerationDist(-100);
+            moveDriveSync(57, 20, 1);
+            TankTurn(145);
+            BrakeLeftRightMotor(1);
+            AccelerationDist(-25);
             BrakeLeftRightMotor(1);
             throwBall_firstPart();
 
             // возврат на линию
-            AccelerationDist(150);
+            AccelerationDist(24);
+            BrakeLeftRightMotor(1);
+            TankTurn(-82);
+            BrakeLeftRightMotor(1);
+            AccelerationDist(200);
             startTask(throwBall_secondPart);
-            setMotorBrakeMode(leftMotor, motorBrake);
-            RightWheelTurn(30);
-            AccelerationDist(300);
             AccelerationLinePID(100, 1);
             MoveBeforeTurn();
+            BrakeLeftRightMotor(1);
+            sleep(3000);
         }
     }
 
@@ -157,7 +173,7 @@ short leftRoom(short markerLeft)
 void Rooms()
 {
     // движение до линии с маркерами
-    AccelerationLinePID(405, 1);
+    AccelerationLinePID(20, 1);
 
     // где-то тут считывание маркеров
     short markerLeft = 0;

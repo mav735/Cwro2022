@@ -2,11 +2,10 @@ float SteerCounter(int speed){
 	results_sensors = SensorsToPercent();
 
 	float error = results_sensors -> secondSensor - results_sensors -> firstSensor;
-	float cof = 1;
 
-	float actionP = error * Kp * cof * (speed / max_speed_const);
-	float actionI = (error + pr_error) * Ki * cof;
-	float actionD = (error - pr_error) * Kd * cof * (speed / max_speed_const);
+	float actionP = error * Kp;
+	float actionI = (error + pr_error) * Ki;
+	float actionD = (error - pr_error) * Kd;
 	float steer = actionP + actionI + actionD;
 	pr_error = error;
 	return steer;
@@ -54,7 +53,7 @@ void AccelerationLinePID(float len_millimeters, int line_stop = 0, float speed_u
 	}
 
 	if (line_stop == 1) {
-		while ((results_sensors -> firstSensor > 20) || (results_sensors -> secondSensor > 20)){
+		while ((results_sensors -> firstSensor > 15) || (results_sensors -> secondSensor > 15)){
       		DrivePID(start_speed);
     	}
 	}
@@ -98,10 +97,14 @@ void AccelerationDist(float len_millimeters, float speed_up_part = 0.5, float st
 
 	float max_part_speed = speed;
 	start_time = getTimerValue(T1);
+	char flag = 1;
 	while(now_millimeters < len_millimeters) {
-		speed = SpeedCounter(max_part_speed, sgn_speed * -1, getTimerValue(T1) - start_time);
+		if (flag){
+			speed = SpeedCounter(max_part_speed, sgn_speed * -1, getTimerValue(T1) - start_time);
+		}
 		if (fabs(speed) < min_speed_const) {
 			speed = min_speed_const * sgn_speed;
+			flag = 0;
 		}
 		
 		DrivePIDTacho(speed, turn_pair);
