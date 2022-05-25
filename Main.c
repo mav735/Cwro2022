@@ -39,7 +39,7 @@ task main() {
 	NOW_ANGLE = 90;
 
 	setBottle(0, 1);
-	setBottle(1, 1);
+	setBottle(1, 0);
 	startTask(waterUp);
 	Rooms();
 

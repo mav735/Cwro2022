@@ -54,7 +54,7 @@ void putWaterOnTable(char type)
     else
     {
         // правая вода
-        moveMotor(waterMotor, -214, -28 * (8.1 / getBatteryVoltage()), 1);
+        moveMotor(waterMotor, -215, -28 * (8.1 / getBatteryVoltage()), 1);
     }
     // sleep(150);
 }
@@ -97,11 +97,11 @@ short getBottleVal(short bottle_num)
 
 void takeBall()
 {
-    moveMotor(grabMotor, 1000, -25, 1);
+    moveMotor(grabMotor, 1200, -100, 1);
 }
 
 task takeBall_task(){
-    moveMotor(grabMotor, 70, -50, 1);
+    moveMotor(grabMotor, 70, -100, 1);
 }
 
 void throwBall_firstPart()
@@ -112,5 +112,5 @@ void throwBall_firstPart()
 
 task throwBall_secondPart()
 {
-    moveMotor(grabMotor, 1250, 100, 1);
+    moveMotor(grabMotor, 1470, 100, 1);
 }
