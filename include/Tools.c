@@ -1,8 +1,10 @@
-void check_battery(){
+void check_battery()
+{
   float volt = getBatteryVoltage();
-  setSoundVolume(90); 
+  setSoundVolume(90);
   displayCenteredBigTextLine(12, "%f", volt);
-  if (!(volt > 8.02 && volt < 8.3)){
+  if (!(volt > 8.02 && volt < 8.3))
+  {
     playSound(soundDownwardTones);
     playSound(soundException);
   }
@@ -92,14 +94,16 @@ int arr_cutFirst(Array arr)
   return val;
 }
 
-void test_arr_operations(){
+void test_arr_operations()
+{
   Array my_arr;
   int arr[7];
   my_arr.pointer = &arr;
   my_arr.len = 7;
-  
+
   arr_fill(my_arr, -228);
-  for (int i = 0; i < my_arr.len; i++){
+  for (int i = 0; i < my_arr.len; i++)
+  {
     arr_push_back(my_arr, i + 10);
   }
 
@@ -108,7 +112,8 @@ void test_arr_operations(){
   waitForButtonPress();
   eraseDisplay();
 
-  for (int i = 0; i < my_arr.len; i++){
+  for (int i = 0; i < my_arr.len; i++)
+  {
     displayCenteredTextLine(5, "%d", arr_cutFirst(my_arr));
     flushButtonMessages();
     waitForButtonPress();
@@ -117,6 +122,19 @@ void test_arr_operations(){
 
   displayCenteredTextLine(5, "after cut");
   displayCenteredTextLine(10, "%d %d %d %d %d %d %d", my_arr.pointer[0], my_arr.pointer[1], my_arr.pointer[2], my_arr.pointer[3], my_arr.pointer[4], my_arr.pointer[5], my_arr.pointer[6]);
+}
+
+int arr_find(Array arr, int element)
+{
+  // ind of element or -1 if element not in array
+  for (int i = 0; i < arr.len; i++)
+  {
+    if (arr.pointer[i] == element)
+    {
+      return i;
+    }
+  }
+  return -1;
 }
 
 const float SPEEDY_BOBOT_GEARS[4] = {0, 30, 55, 101};

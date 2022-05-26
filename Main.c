@@ -42,9 +42,11 @@ task main() {
 	setBottle(1, 1);
 	startTask(waterUp);
 	start();
-	//Rooms();
+	BrakeLeftRightMotor(1);
 
 	sleep(4000);
+
+	Rooms();
 
 
 	//LCDWriteInfoHitechRaw(&colorLeftSensor, &WashInfoRawLeft);

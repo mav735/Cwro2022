@@ -105,7 +105,7 @@ short leftRoom(short markerLeft)
 
             // шарик
             AccelerationDistSlow(-80)
-            BrakeLeftRightMotor(1);
+                BrakeLeftRightMotor(1);
             sleep(2000);
             TankTurn(100, 0, 12);
             BrakeLeftRightMotor(1);
@@ -264,7 +264,7 @@ short rightRoom(short markerRight)
 
             // шарик
             AccelerationDistSlow(-80)
-            BrakeLeftRightMotor(1);
+                BrakeLeftRightMotor(1);
             sleep(2000);
             TankTurn(-100, 0, 12);
             BrakeLeftRightMotor(1);
@@ -326,16 +326,6 @@ short rightRoom(short markerRight)
     }
 }
 
-void start(){
-    AccelerationDist(10);
-    TankTurn(45);
-    startTask(waterFullDown);
-    AccelerationDist(20);
-    AccelerationLinePID(100, 1);
-    MoveBeforeTurn();
-    startTask(waterUp);
-}
-
 void Rooms()
 {
     // движение до линии с маркерами
@@ -352,4 +342,100 @@ void Rooms()
     // leftRoom
     short washLeftRoom = leftRoom(markerLeft);
     short washRightRoom = rightRoom(markerRight);
+}
+
+void start()
+{
+    AccelerationDistSlow(20);
+    TankTurn(45);
+    startTask(waterFullDown);
+    AccelerationDist(30);
+    AccelerationLinePID(130, 1);
+    MoveBeforeTurn();
+    startTask(waterUp);
+    // бутылки в роботе
+    sleep(500);
+    PointTurn(-200, 0, 45, 1);
+    TankTurnFast(180);
+    AccelerationLinePID(50, 1);
+    MoveBeforeTurn(0);
+    // готов к комнате
+}
+
+void moveFromRoomToRoom()
+{
+    // комната окончена, едем к другой
+    // вроде бы нам налево, но если что надо заредачить
+    TankTurnFast(-90);
+    // сделать тут fast
+    AccelerationLinePID(300, 1);
+
+    AccelerationLinePID(100);
+    AccelerationDist(200);
+
+    // здесь бибот должен по дуге обойти человека и встать под ~45 градусов (или не под 45 гладусов) на перекрестке
+    PointTurn(-10, 50, 30, 1);
+    TankTurn(45);
+    // мы готовы ко второй комнате
+}
+
+void moveFromSecondPairRoomsToFrames()
+{
+    // закончили вторую комнату, едем к рамкам
+    // вроде бы как нам направо, но я опять не уверен
+    TankTurnFast(90);
+
+    // надо бы опять объехать чела
+    // повренуться вокруг себя, проехаться и повернуться на линию
+    TankTurn(-30);
+    AccelerationDist(150);
+    TankTurn(-60);
+    AccelerationLinePID(90, 1);
+    BrakeLeftRightMotor();
+    // готов к рамкам
+}
+
+void actionFromPos_frames(int pos)
+{
+    // возможно стоит изменить абсолютный угол
+    if (pos == 0)
+    {
+        // левая рамка относительно робота
+        AbsTurn(60);
+        throwCube();
+    }
+    else if (pos == 1)
+    {
+        // центральная рамка
+        AbsTurn(90);
+        throwCube();
+    }
+    else if (pos == 2)
+    {
+        // правая рамка относительно робота
+        AbsTurn(120);
+        throwCube();
+    }
+}
+
+void frames()
+{
+    // считывание
+    // вращаться вокруг одной точки и считывать цвета рамок
+
+    Array frames_array;
+    int frames[3] = {1, 4, 5};
+    frames_array.pointer = &frames[0];
+    frames_array.len = sizeof(frames) / sizeof(frames[0]);
+
+    // надо выставить абсолютный угол
+    EditAngle(90);
+
+    for (int i = 0; i < 3; i++)
+    {
+        // находим расположение нужной рамки
+        int position = arr_find(frames_array, getFirstCube());
+        // что-то сделали
+        actionFromPos_frames(position);
+    }
 }
