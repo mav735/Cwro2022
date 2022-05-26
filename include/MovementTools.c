@@ -1,7 +1,7 @@
-float SpeedCounter(float speed, int acceleration_value, int time_delta)
+float SpeedCounter(float speed, int acceleration_value, int time_delta, float accel = acceleration)
 {
 	// acceleration value - 1 || -1, speed up or speed down
-	float now_speed = speed + acceleration * time_delta * acceleration_value;
+	float now_speed = speed + accel * time_delta * acceleration_value;
 	return now_speed;
 }
 
@@ -37,6 +37,7 @@ void BrakeLeftRightMotor(char stop_type = 0)
 	}
 	setMotorSpeed(leftMotor, 0);
 	setMotorSpeed(rightMotor, 0);
+	playSound(soundBlip);
 }
 
 void brakeWaterMotor(char stop_type = 0)

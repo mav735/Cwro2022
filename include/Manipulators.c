@@ -49,12 +49,12 @@ void putWaterOnTable(char type)
 {
     if (type == 0)
     {
-        moveMotor(waterMotor, -260, -60, 1);
+        moveMotor(waterMotor, -305, -30, 1);
     }
     else
     {
         // правая вода
-        moveMotor(waterMotor, -215, -28 * (8.1 / getBatteryVoltage()), 1);
+        moveMotor(waterMotor, -265, -28, 1);
     }
     // sleep(150);
 }
@@ -62,7 +62,7 @@ void putWaterOnTable(char type)
 task waterUp()
 {
     setMotorSpeed(waterMotor, 15);
-    sleep(200);
+    sleep(1500);
     setMotorSpeed(waterMotor, 60);
     sleep(150);
     brakeWaterMotor(1);
@@ -113,4 +113,15 @@ void throwBall_firstPart()
 task throwBall_secondPart()
 {
     moveMotor(grabMotor, 1470, 100, 1);
+}
+
+task waterFullDown(){
+    setMotorSpeed(waterMotor, -15);
+    sleep(200);
+    setMotorSpeed(waterMotor, -60);
+    sleep(1000);
+    brakeWaterMotor(1);
+    setMotorSpeed(waterMotor, -30);
+    sleep(600);
+    brakeWaterMotor(1);
 }

@@ -1,6 +1,6 @@
 float SteerCounter(int speed)
 {
-	if ((getMotorSpeed(motorB) + fabs(motorA)) / 2 < 24)
+	if ((getMotorSpeed(motorB) + fabs(motorA)) / 2 < 20)
 	{
 		results_sensors = SensorsToPercent();
 
@@ -83,7 +83,7 @@ void AccelerationLinePID(float len_millimeters, int line_stop = 0, float speed_u
 	}
 }
 
-void AccelerationDist(float len_millimeters, float speed_up_part = 0.5, float start_speed = min_speed_const)
+void AccelerationDist(float len_millimeters, float speed_up_part = 0.5, float start_speed = min_speed_const, float accel = acceleration)
 {
 	float start_time = getTimerValue(T1);
 	float speed = start_speed;
@@ -110,7 +110,7 @@ void AccelerationDist(float len_millimeters, float speed_up_part = 0.5, float st
 
 	while (now_millimeters < len_millimeters * speed_up_part)
 	{
-		speed = SpeedCounter(start_speed, sgn_speed, getTimerValue(T1) - start_time);
+		speed = SpeedCounter(start_speed, sgn_speed, getTimerValue(T1) - start_time, accel);
 		if (fabs(speed) > max_speed_const)
 		{
 			speed = max_speed_const * sgn_speed;
@@ -129,7 +129,7 @@ void AccelerationDist(float len_millimeters, float speed_up_part = 0.5, float st
 	{
 		if (flag)
 		{
-			speed = SpeedCounter(max_part_speed, sgn_speed * -1, getTimerValue(T1) - start_time);
+			speed = SpeedCounter(max_part_speed, sgn_speed * -1, getTimerValue(T1) - start_time, accel);
 		}
 		if (fabs(speed) < min_speed_const)
 		{
@@ -142,4 +142,8 @@ void AccelerationDist(float len_millimeters, float speed_up_part = 0.5, float st
 		float moved_motors = MotorsAbsMovedDegreesLR(enc_left_motor, enc_right_motor);
 		now_millimeters = DegreesToMillimeters(moved_motors);
 	}
+}
+
+void AccelerationDistSlow(float len_millimeters, float speed_up_part = 0.5, float start_speed = min_speed_const){
+	AccelerationDist(len_millimeters, speed_up_part, start_speed, acceleration_slow);
 }

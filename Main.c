@@ -39,9 +39,12 @@ task main() {
 	NOW_ANGLE = 90;
 
 	setBottle(0, 1);
-	setBottle(1, 0);
+	setBottle(1, 1);
 	startTask(waterUp);
-	Rooms();
+	start();
+	//Rooms();
+
+	sleep(4000);
 
 
 	//LCDWriteInfoHitechRaw(&colorLeftSensor, &WashInfoRawLeft);
