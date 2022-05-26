@@ -1,41 +1,3 @@
-void WaterLeftRoomWithCube(){ //work
-    Paws('c');
-    delay(100);
-    if (left_bottle){
-        BrakeLeftRightMotor(1);
-        delay(300);
-        left_bottle = 0;
-        TankTurn(-35);
-        PointTurn(500, 0, -15, 1);
-        BrakeLeftRightMotor(1);
-        MainManipulator('t')
-        AccelerationDist(40, 0);
-        Paws('c');
-        BrakeLeftRightMotor(1);
-        TankTurn(-110);
-        PointTurn(250, 0, 25, 1, 1);
-        AccelerationLinePID(160, 1);
-        AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0);
-    }
-    else if(right_bottle){
-        BrakeLeftRightMotor(1);
-        delay(300);
-        right_bottle = 0;
-        TankTurn(-35);
-
-        PointTurn(-280, 0, 25, 1);
-        BrakeLeftRightMotor(1);
-        
-        MainManipulator('t')
-        AccelerationDist(40, 0);
-        Paws('c');
-        BrakeLeftRightMotor(1);
-        TankTurn(-158);
-        AccelerationLinePID(150, 1);
-        AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0);
-    }
-}
-
 void WaterLeftRoomNoCube(){ //work
     if (right_bottle){
         right_bottle = 0;
@@ -44,9 +6,10 @@ void WaterLeftRoomNoCube(){ //work
         MainManipulator('t')
         AccelerationDist(40, 0);
         Paws('c');
-        TankTurn(-120);
-        PointTurn(390, 0, 20, 1);
-        AccelerationLinePID(10, 1);
+        delay(20);
+        AccelerationDist(-40, 0);
+        TankTurn(-90);
+        AccelerationLinePID(100, 1);
         AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0);
     }
     else if(left_bottle){
@@ -57,10 +20,23 @@ void WaterLeftRoomNoCube(){ //work
         MainManipulator('t')
         AccelerationDist(40, 0);
         Paws('c');
-        TankTurn(-20);
+        delay(20);
+        AccelerationDist(-40, 0);
+        TankTurn(-30);
         AccelerationLinePID(100, 1);
         AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0);
     }
+}
+
+void WaterLeftRoomWithCube(){ //work
+    Paws('c');
+    BrakeLeftRightMotor(1);
+    delay(200);
+
+    AccelerationDist(-190, 0);
+    TankTurn(50);
+    AccelerationDist(20, 0);
+    WaterLeftRoomNoCube();
 }
 
 void BallLeftRoomWithCube(){

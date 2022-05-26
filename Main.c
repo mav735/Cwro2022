@@ -22,29 +22,28 @@
 #include <include/LeftRoom.c>
 #include <include/RightRoom.c>
 #include <include/Rooms.c>
-
+// all works CHECK BALL LEFT ROOM (BLUE ROOM)
 task main() {
 	if (getBatteryVoltage() < 8.0){
 		playSound(soundException);
 		playSound(soundLowBuzzShort);
 	}
-
+	right_bottle = 0;
 	NOW_ANGLE = 180;
 	initSensor(&colorRightSensor, HTright, HTCS2_MODE_RAW);
 	initSensor(&colorLeftSensor,  HTleft,  HTCS2_MODE_RAW);
 	InitMarkerCallibrationRaw();
 	InitWashCallibrationRaw();
-
-	Take_bottles();
-	Move_1_19_with_reading();
-	NOW_ANGLE = 270;
-	yellow_room();
-	BrakeLeftRightMotor(1);
-	delay(2000);
-	NOW_ANGLE = 180;
+	right_indicator = 'W';
+	left_indicator =  'W';
+	NOW_ANGLE = 360;
 	blue_room();
 	BrakeLeftRightMotor(1);
-	displayCenteredTextLine(6, "right: %c left: %c", right_indicator, left_indicator);
-	delay(4000);
-	stopAllTasks();
+	// delay(2000);
+	//NOW_ANGLE = 180;
+	//blue_room();
+	//BrakeLeftRightMotor(1);
+	//displayCenteredTextLine(6, "right: %c left: %c", right_indicator, left_indicator);
+	//delay(4000);
+	//stopAllTasks();
 }

@@ -12,7 +12,7 @@ task ZeroMotorPaw(){
 
 void Paws(char action){
     if (action == 'o'){
-        moveMotorTarget(elevatorMotor, 180, 100);
+        moveMotorTarget(elevatorMotor, 360, 100);
     }
     else if (action == 'c'){
         startTask(ZeroMotorPaw, 7);
@@ -32,7 +32,7 @@ void MainManipulator(char action){
     }
     else if (action == 't'){ //water
         setMotorSpeed(elevatorMotor, -100);
-        delay(500);
+        delay(600)
         setMotorSpeed(elevatorMotor, 0);
     }
     else if (action == 'c'){ //in stock pos

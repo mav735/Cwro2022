@@ -20,6 +20,7 @@ float DegreesToMillimeters (float degrees_input){
 }
 
 void BrakeLeftRightMotor(char stop_type = 0){
+	// playSound(soundBlip);
 	if (stop_type){
 		setMotorBrakeMode(leftMotor, motorBrake);
         setMotorBrakeMode(rightMotor, motorBrake);

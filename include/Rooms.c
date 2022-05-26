@@ -8,7 +8,7 @@ void yellow_room(){
 
     if (cube != 'N'){
         AccelerationDist(-20, 0);
-        TankTurn(60);
+        TankTurn(50);
         BrakeLeftRightMotor(1);
 
         if (right_indicator == 'G'){
@@ -33,20 +33,19 @@ void yellow_room(){
     }
     else{
         if (right_indicator == 'G'){
-            AccelerationDist(-20, 0);
-            TankTurn(60);
-            BrakeLeftRightMotor(1);
-            setMotorSpeed(elevatorMotor, 100);
-            AccelerationDist(190);
-            BrakeLeftRightMotor(1);
-            BallRightRoomWithCube();
-            short now_speed = fabs(getMotorSpeed(leftMotor));
+            BallRightRoomNoCube();
             AccelerationLinePID(190 - BetweenSensorsAndMiddle, 1);
             AccelerationLinePID(BetweenSensorsAndMiddle, 0);
         }
         else{
             WaterRightRoomNoCube()
         }
+    }
+    BrakeLeftRightMotor(0);
+    if (right_indicator == 'W'){
+        setMotorSpeed(elevatorMotor, 100);
+        delay(35)
+        setMotorSpeed(elevatorMotor, 0);
     }
 }
 
@@ -98,5 +97,11 @@ void blue_room(){
         else{
             WaterLeftRoomNoCube()
         }
+    }
+    BrakeLeftRightMotor(0);
+    if (left_indicator == 'W'){
+        setMotorSpeed(elevatorMotor, 100);
+        delay(35)
+        setMotorSpeed(elevatorMotor, 0);
     }
 }

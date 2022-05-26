@@ -3,8 +3,8 @@ const float Ki = 0;
 const float Kd = 7.7;
 
 const float Kp_tacho = 0.35;
-const float Ki_tacho = 0.32;
-const float Kd_tacho = 5.6;
+const float Ki_tacho = 0.2;
+const float Kd_tacho = 5;
 
 byte left_bottle = 1;
 byte right_bottle = 1;
@@ -22,7 +22,7 @@ const float right_max_sensor = 1716;
 const float max_speed_const = 80;
 const float min_speed_const = 17;
 
-const float acceleration = 0.035; // speed_points/ms^2
+const float acceleration = 0.05; // speed_points/ms^2
 
 float NOW_ANGLE = 45;
 float pr_error = 0;
