@@ -93,7 +93,7 @@ void ReadLeftWash(short len_millimeters, short speed){
 	else if (ht_results[0] > 1900){
 		cube = 'Y';
 	}
-	else if (ht_results[0] < -130){
+	else if (ht_results[0] < -160){
 		cube = 'B';
 	}
 	else{

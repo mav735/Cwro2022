@@ -19,6 +19,9 @@
 #include <include/Manipulators.c>
 #include <include/Scanning.c>
 #include <include/Route.c>
+#include <include/LeftRoom.c>
+#include <include/RightRoom.c>
+#include <include/Rooms.c>
 
 task main() {
 	if (getBatteryVoltage() < 8.0){
@@ -32,11 +35,16 @@ task main() {
 	InitMarkerCallibrationRaw();
 	InitWashCallibrationRaw();
 
-	right_indicator = 'G';
+	Take_bottles();
+	Move_1_19_with_reading();
+	NOW_ANGLE = 270;
+	yellow_room();
+	BrakeLeftRightMotor(1);
+	delay(2000);
+	NOW_ANGLE = 180;
 	blue_room();
 	BrakeLeftRightMotor(1);
-	Paws('c');
-	displayCenteredTextLine(6, "right: %c", right_indicator);
+	displayCenteredTextLine(6, "right: %c left: %c", right_indicator, left_indicator);
 	delay(4000);
 	stopAllTasks();
 }
