@@ -18,7 +18,7 @@ void yellow_room(){
             Paws('o');
         }
 
-        AccelerationDist(190, 0);
+        AccelerationDist(210, 0);
         BrakeLeftRightMotor(1);
 
         if (right_indicator == 'G'){
@@ -59,7 +59,7 @@ void blue_room(){
 
     if (cube != 'N'){
         AccelerationDist(-20, 0);
-        TankTurn(-58);
+        TankTurn(-50);
         BrakeLeftRightMotor(1);
 
         if (left_indicator == 'G'){
@@ -69,7 +69,7 @@ void blue_room(){
             Paws('o');
         }
 
-        AccelerationDist(190, 0);
+        AccelerationDist(210, 0);
         BrakeLeftRightMotor(1);
 
         if (left_indicator == 'G'){
@@ -84,13 +84,7 @@ void blue_room(){
     }
     else{
         if (left_indicator == 'G'){
-            AccelerationDist(-20, 0);
-            TankTurn(-58);
-            BrakeLeftRightMotor(1);
-            setMotorSpeed(elevatorMotor, 100);
-            AccelerationDist(190);
-            BrakeLeftRightMotor(1);
-            BallLeftRoomWithCube()
+            BallLeftRoomNoCube();
             AccelerationLinePID(190 - BetweenSensorsAndMiddle, 1);
             AccelerationLinePID(BetweenSensorsAndMiddle, 0);
         }

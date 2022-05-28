@@ -118,3 +118,38 @@ void bottles(){
         BrakeLeftRightMotor(1);
     }
 }
+
+void MoveFromYBToRG(){
+    TankTurn(90);
+    AccelerationLinePID(690, 1);
+    TankTurn(45);
+    AccelerationDist(248.9);
+    TankTurn(-65.66);
+    AccelerationDist(427);
+    AccelerationDist(BetweenSensorsAndMiddle - 8);
+    TankTurn(24.34);
+    
+    AccelerationLinePID(290 - BetweenSensorsAndMiddle, 1, 0.7, now_speed);
+    BrakeLeftRightMotor(0);
+
+    ReadIndicator(50, 60);
+
+    AccelerationLinePID(147 - BetweenSensorsAndMiddle, 1, 0, 60);
+    AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0, 0);
+    BrakeLeftRightMotor(1);
+
+    if (ht_results[0] > 300){
+		left_indicator = 'W';
+	}
+	else{
+		left_indicator = 'G';
+	}
+	
+	if (ht_results[1] > 300){
+		right_indicator = 'W';
+	}
+	else{
+		right_indicator = 'G';
+	}
+    EditAngle(90);
+}

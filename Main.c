@@ -23,6 +23,7 @@
 #include <include/RightRoom.c>
 #include <include/Rooms.c>
 // all works CHECK BALL LEFT ROOM (BLUE ROOM)
+
 task main() {
 	if (getBatteryVoltage() < 8.0){
 		playSound(soundException);
@@ -34,8 +35,8 @@ task main() {
 	initSensor(&colorLeftSensor,  HTleft,  HTCS2_MODE_RAW);
 	InitMarkerCallibrationRaw();
 	InitWashCallibrationRaw();
-	right_indicator = 'W';
-	left_indicator =  'W';
+	right_indicator = 'G';
+	left_indicator =  'G';
 	NOW_ANGLE = 360;
 	blue_room();
 	BrakeLeftRightMotor(1);
