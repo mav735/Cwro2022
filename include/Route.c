@@ -37,7 +37,7 @@ void Move_1_19_with_reading(){
     AbsTurn(180);
     AccelerationLinePID(160, 0, 1);
     short now_speed = fabs(getMotorSpeed(leftMotor));
-    PointTurn(176, 0, 90, 1, 0.8, now_speed);
+    PointTurn(170, 0, 90, 1, 0.8, now_speed);
 
     now_speed = fabs(getMotorSpeed(leftMotor));
     AccelerationLinePID(530 - BetweenSensorsAndMiddle, 0, 0.7, now_speed);
@@ -55,7 +55,7 @@ void Move_1_19_with_reading(){
 	else{
 		left_indicator = 'G';
 	}
-	
+
 	if (ht_results[1] > 300){
 		right_indicator = 'W';
 	}
@@ -120,16 +120,15 @@ void bottles(){
 }
 
 void MoveFromYBToRG(){
-    TankTurn(90);
-    AccelerationLinePID(690, 1);
+    TankTurn(-90);
+    AccelerationLinePID(690, 0);
     TankTurn(45);
     AccelerationDist(248.9);
-    TankTurn(-65.66);
-    AccelerationDist(427);
+    TankTurn(-58);
+    AccelerationDist(430);
     AccelerationDist(BetweenSensorsAndMiddle - 8);
-    TankTurn(24.34);
-    
-    AccelerationLinePID(290 - BetweenSensorsAndMiddle, 1, 0.7, now_speed);
+    TankTurn(25);
+    AccelerationLinePID(290 - BetweenSensorsAndMiddle, 1, 0.7);
     BrakeLeftRightMotor(0);
 
     ReadIndicator(50, 60);
@@ -144,7 +143,7 @@ void MoveFromYBToRG(){
 	else{
 		left_indicator = 'G';
 	}
-	
+
 	if (ht_results[1] > 300){
 		right_indicator = 'W';
 	}

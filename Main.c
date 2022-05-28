@@ -29,22 +29,29 @@ task main() {
 		playSound(soundException);
 		playSound(soundLowBuzzShort);
 	}
-	right_bottle = 0;
 	NOW_ANGLE = 180;
 	initSensor(&colorRightSensor, HTright, HTCS2_MODE_RAW);
 	initSensor(&colorLeftSensor,  HTleft,  HTCS2_MODE_RAW);
 	InitMarkerCallibrationRaw();
 	InitWashCallibrationRaw();
-	right_indicator = 'G';
-	left_indicator =  'G';
-	NOW_ANGLE = 360;
+
+	Take_bottles();
+	Move_1_19_with_reading();
 	blue_room();
+	NOW_ANGLE = 360;
+	yellow_room();
+
+	MoveFromYBToRG();
 	BrakeLeftRightMotor(1);
-	// delay(2000);
-	//NOW_ANGLE = 180;
-	//blue_room();
-	//BrakeLeftRightMotor(1);
-	//displayCenteredTextLine(6, "right: %c left: %c", right_indicator, left_indicator);
-	//delay(4000);
-	//stopAllTasks();
+	NOW_ANGLE = 90;
+
+	red_room();
+	BrakeLeftRightMotor(1);
+	delay(2000);
+	green_room();
+	BrakeLeftRightMotor(1);
+
+	displayCenteredTextLine(6, "right: %c left: %c", right_indicator, left_indicator);
+	delay(4000);
+	stopAllTasks();
 }

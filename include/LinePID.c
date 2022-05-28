@@ -54,7 +54,7 @@ void AccelerationLinePID(float len_millimeters, int line_stop = 0, float speed_u
 	}
 
 	if (line_stop == 1) {
-		while ((results_sensors -> firstSensor > 20) || (results_sensors -> secondSensor > 20)){
+		while ((results_sensors -> firstSensor > 10) || (results_sensors -> secondSensor > 10)){
       		DrivePID(start_speed);
     	}
 	}

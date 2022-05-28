@@ -15,6 +15,10 @@ void Paws(char action){
         moveMotorTarget(elevatorMotor, 360, 100);
     }
     else if (action == 'c'){
+        setMotorSpeed(elevatorMotor, -100);
+        delay(150);
+        setMotorSpeed(elevatorMotor, 0);
+        
         startTask(ZeroMotorPaw, 7);
     }
 }

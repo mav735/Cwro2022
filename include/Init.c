@@ -3,8 +3,8 @@ const float Ki = 0;
 const float Kd = 7.7;
 
 const float Kp_tacho = 0.35;
-const float Ki_tacho = 0.2;
-const float Kd_tacho = 5;
+const float Ki_tacho = 0.3;
+const float Kd_tacho = 5.5;
 
 byte left_bottle = 1;
 byte right_bottle = 1;
@@ -20,9 +20,9 @@ const float left_max_sensor = 1804;
 const float right_max_sensor = 1716;
 
 const float max_speed_const = 80;
-const float min_speed_const = 17;
+const float min_speed_const = 18;
 
-const float acceleration = 0.05; // speed_points/ms^2
+const float acceleration = 0.04; // speed_points/ms^2
 
 float NOW_ANGLE = 45;
 float pr_error = 0;
@@ -250,11 +250,11 @@ void InitWashCallibrationRaw (){
 	WashInfoRawLeft.green_min = 37;
 	WashInfoRawLeft.blue_min = 28;
 
-	WashInfoRawRight.red_max = 40;
-	WashInfoRawRight.green_max = 65;
-	WashInfoRawRight.blue_max = 42;
+	WashInfoRawRight.red_max = 45;
+	WashInfoRawRight.green_max = 72;
+	WashInfoRawRight.blue_max = 46;
 
-	WashInfoRawRight.red_min = 16;
-	WashInfoRawRight.green_min = 31;
+	WashInfoRawRight.red_min = 15;
+	WashInfoRawRight.green_min = 32;
 	WashInfoRawRight.blue_min = 22;
 }

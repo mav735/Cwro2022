@@ -1,49 +1,60 @@
 void BallRightRoomWithCube(){
-    setMotorSpeed(elevatorMotor, 100);
+    BrakeLeftRightMotor(1);
     TankTurn(-49);
+    BrakeLeftRightMotor(1);
 
-    AccelerationDist(54, 0);
+    setMotorSpeed(elevatorMotor, 100);
+    delay(200)
+
+    AccelerationDist(50, 0);
     BrakeLeftRightMotor(1);
 
     setMotorSpeed(grabMotor, 100);
-    delay(50);
+    delay(100);
 
     Paws('c');
-    TankTurn(-70);
-    AccelerationDist(160);
+
+    TankTurn(-80);
+    AccelerationDist(150);
     BrakeLeftRightMotor(1);
+
     setMotorSpeed(grabMotor, -100);
-    delay(50);
-    AccelerationDist(-25, 0);
-    TankTurn(-110);
-    AccelerationDist(170, 1);
+    delay(100);
+    
+    Paws('c');
+
+    AccelerationDist(-35, 0);
+    TankTurn(-105);
+    AccelerationDist(160, 1);
 }
 
 
 void BallRightRoomNoCube(){
+    BrakeLeftRightMotor(0);
     setMotorSpeed(elevatorMotor, 100);
-    delay(50);
+    delay(500);
 
-    AccelerationDist(-20);
-    BrakeLeftRightMotor(1);
+    LeftWheelTurn(-33)
+    AccelerationDist(220);
 
-    TankTurn(35);
-    AccelerationDist(190);
     BrakeLeftRightMotor(1);
     delay(50);
 
     setMotorSpeed(grabMotor, 50);
-    delay(70);
+    delay(150);
+
     Paws('c');
 
     TankTurn(-102.5);
-    AccelerationDist(110);
+    AccelerationDist(115);
     BrakeLeftRightMotor(1);
 
     setMotorSpeed(grabMotor, -100);
     delay(50);
 
-    TankTurn(-110);
+    Paws('c');
+
+    TankTurn(-117);
     AccelerationDist(170);
 }
 
@@ -53,12 +64,12 @@ void WaterRightRoomNoCube(){
         TankTurn(90);
         BrakeLeftRightMotor(1);
         MainManipulator('t')
-        AccelerationDist(45, 0);
+        AccelerationDist(50, 0);
         Paws('c');
         delay(20);
-        AccelerationDist(-45, 0);
-        TankTurn(90);
-        AccelerationLinePID(100, 1);
+        AccelerationDist(-60, 0);
+        TankTurn(100);
+        AccelerationLinePID(130, 1);
         AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0);
     }
     else if(right_bottle){
@@ -67,24 +78,26 @@ void WaterRightRoomNoCube(){
         TankTurn(150);
         BrakeLeftRightMotor(1);
         MainManipulator('t')
-        AccelerationDist(45, 0);
+        AccelerationDist(50, 0);
         Paws('c');
         delay(20);
-        AccelerationDist(-45, 0);
-        TankTurn(30);
-        AccelerationLinePID(100, 1);
+        AccelerationDist(-60, 0);
+        TankTurn(33);
+        AccelerationLinePID(130, 1);
         AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0);
     }
 }
 
 void WaterRightRoomWithCube(){
     Paws('c');
+
     BrakeLeftRightMotor(1);
     delay(200);
 
     AccelerationDist(-190, 0);
-    TankTurn(-50);
-    AccelerationDist(20, 0);
+
+    TankTurn(-43);
+
     WaterRightRoomNoCube();
 }
 

@@ -4,13 +4,13 @@ void WaterLeftRoomNoCube(){ //work
         TankTurn(-90);
         BrakeLeftRightMotor(1);
         MainManipulator('t')
-        AccelerationDist(40, 0);
+        AccelerationDist(50, 0);
         Paws('c');
         delay(20);
-        AccelerationDist(-40, 0);
+        AccelerationDist(-60, 0);
         
-        TankTurn(-90);
-        AccelerationLinePID(100, 1);
+        TankTurn(-100);
+        AccelerationLinePID(130, 1);
         AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0);
     }
     else if(left_bottle){
@@ -19,72 +19,86 @@ void WaterLeftRoomNoCube(){ //work
         TankTurn(-150);
         BrakeLeftRightMotor(1);
         MainManipulator('t')
-        AccelerationDist(40, 0);
+        AccelerationDist(50, 0);
         Paws('c');
         delay(20);
-        AccelerationDist(-40, 0);
-        TankTurn(-30);
-        AccelerationLinePID(100, 1);
+        AccelerationDist(-60, 0);
+        TankTurn(-35);
+        AccelerationLinePID(130, 1);
         AccelerationLinePID(BetweenSensorsAndMiddle - 10, 0);
     }
 }
 
 void WaterLeftRoomWithCube(){ //work
+    BrakeLeftRightMotor(1);
+
     Paws('c');
     BrakeLeftRightMotor(1);
     delay(200);
 
     AccelerationDist(-190, 0);
-    TankTurn(50);
-    AccelerationDist(20, 0);
-    
+
+    TankTurn(43);
+
     WaterLeftRoomNoCube();
 }
 
 void BallLeftRoomWithCube(){
+    BrakeLeftRightMotor(1);
     setMotorSpeed(elevatorMotor, 100);
+    delay(100);
+
     TankTurn(49);
 
-    AccelerationDist(54, 0);
+    AccelerationDist(50, 0);
     BrakeLeftRightMotor(1);
+    delay(100);
 
     setMotorSpeed(grabMotor, 100);
+    delay(100);
+
+    Paws('c');
+
+    TankTurn(80);
+
+    AccelerationDist(150);
+    BrakeLeftRightMotor(1);
+
+    setMotorSpeed(grabMotor, -100);
     delay(50);
 
     Paws('c');
-    TankTurn(70);
-    AccelerationDist(160);
-    BrakeLeftRightMotor(1);
-    setMotorSpeed(grabMotor, -100);
-    delay(50);
+
     AccelerationDist(-25, 0);
-    TankTurn(110);
-    AccelerationDist(170, 1);
+    TankTurn(105);
+    AccelerationDist(160, 1);
 }
 
 void BallLeftRoomNoCube(){ //work Stable
+    BrakeLeftRightMotor(0);
     setMotorSpeed(elevatorMotor, 100);
-    delay(50);
+    delay(500);
 
-    AccelerationDist(-20);
-    BrakeLeftRightMotor(1);
+    RightWheelTurn(-33)
+    AccelerationDist(220);
 
-    TankTurn(-35);
-    AccelerationDist(190);
     BrakeLeftRightMotor(1);
     delay(50);
 
     setMotorSpeed(grabMotor, 50);
-    delay(70);
+    delay(150);
+
     Paws('c');
 
     TankTurn(102.5);
-    AccelerationDist(110);
+    AccelerationDist(115);
     BrakeLeftRightMotor(1);
 
     setMotorSpeed(grabMotor, -100);
     delay(50);
 
-    TankTurn(110);
+    Paws('c');
+
+    TankTurn(117);
     AccelerationDist(170);
 }
