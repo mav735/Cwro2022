@@ -85,6 +85,7 @@ void moveMotor(tMotor motor, int deg, short speed, char stop)
 	setMotorSpeed(motor, speed);
 	while (MotorAbsMovedDegrees(motor, start_deg) < fabs(deg))
 	{
+		displayCenteredTextLine(8, "%d" ,MotorAbsMovedDegrees(motor, start_deg))
 	};
 	stopMotor(motor, stop);
 }

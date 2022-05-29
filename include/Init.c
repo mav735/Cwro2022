@@ -14,11 +14,11 @@ const float axleTrack = 175.5;
 const float wheelDiameter = 80;
 const float BetweenSensorsAndMiddle = 75;
 
-const float left_min_sensor = 2332;
-const float right_min_sensor = 2400;
+const float left_min_sensor = 2248;
+const float right_min_sensor = 2296;
 
-const float left_max_sensor = 1616;
-const float right_max_sensor = 1748;
+const float left_max_sensor = 1540;
+const float right_max_sensor = 1640;
 
 const float max_speed_const = 80;
 const float min_speed_const = 19;
@@ -29,6 +29,10 @@ const float acceleration = 0.05; // speed_points/ms^2
 const float acceleration_turnNorm = 0.07;
 const float acceleration_turnFast = 0.09;
 const float acceleration_turnSuperPizdecFast = 0.12;
+
+long ht_results[2];
+
+char cube;
 
 float NOW_ANGLE = 45;
 float pr_error = 0;
@@ -227,29 +231,37 @@ void InitCalibrationRaw(){
 }
 
 void InitMarkerCallibrationRaw() {
-	MarkerInfoRawLeft.red_max = 174;
-	MarkerInfoRawLeft.green_max = 254;
-	MarkerInfoRawLeft.blue_max = 159;
+	MarkerInfoRawLeft.red_max = 113;
+	MarkerInfoRawLeft.green_max = 168;
+	MarkerInfoRawLeft.blue_max = 112;
 
-	MarkerInfoRawLeft.red_min = 16;
-	MarkerInfoRawLeft.green_min = 33;
-	MarkerInfoRawLeft.blue_min = 25;
+	MarkerInfoRawLeft.red_min = 19;
+	MarkerInfoRawLeft.green_min = 39;
+	MarkerInfoRawLeft.blue_min = 31;
 
-	MarkerInfoRawRight.red_max = 60;
-	MarkerInfoRawRight.green_max = 55;
-	MarkerInfoRawRight.blue_max = 54;
+	MarkerInfoRawRight.red_max = 156;
+	MarkerInfoRawRight.green_max = 164;
+	MarkerInfoRawRight.blue_max = 110; 
 
-	MarkerInfoRawRight.red_min = 1;
-	MarkerInfoRawRight.green_min = 2;
-	MarkerInfoRawRight.blue_min = 2;
+	MarkerInfoRawRight.red_min = 19;
+	MarkerInfoRawRight.green_min = 41;
+	MarkerInfoRawRight.blue_min = 32;
 }
 
 void InitWashCallibrationRaw (){
-	WashInfoRawLeft.red_max = 43;
-	WashInfoRawLeft.green_max = 73;
-	WashInfoRawLeft.blue_max = 52;
+	WashInfoRawLeft.red_max = 113;
+	WashInfoRawLeft.green_max = 168;
+	WashInfoRawLeft.blue_max = 112;
 
-	WashInfoRawLeft.red_min = 21;
-	WashInfoRawLeft.green_min = 42;
-	WashInfoRawLeft.blue_min = 32;
+	WashInfoRawLeft.red_min = 19;
+	WashInfoRawLeft.green_min = 39;
+	WashInfoRawLeft.blue_min = 31;
+
+	WashInfoRawRight.red_max = 156;
+	WashInfoRawRight.green_max = 164;
+	WashInfoRawRight.blue_max = 110; 
+
+	WashInfoRawRight.red_min = 19;
+	WashInfoRawRight.green_min = 41;
+	WashInfoRawRight.blue_min = 32;
 }

@@ -9,14 +9,44 @@
     6 - white
 */
 
+long get_colorWash_left(int rawHT)
+{
+    if (rawHT > 1100){
+        return 4;
+    }
+    else if (rawHT < 1100 && rawHT > 800){
+        return 1;
+    }
+    else if (rawHT < 800 && rawHT > 200){
+        return 5;
+    }
+    return 0;
+}
+
+long get_colorWash_right(int rawHT)
+{
+    if (rawHT > 1100){
+        return 4;
+    }
+    else if (rawHT < 1100 && rawHT > 800){
+        return 1;
+    }
+    else if (rawHT < 800 && rawHT > 200){
+        return 5;
+    }
+    return 0;
+}
+
 short leftRoom(short markerLeft)
 {
-    // заезд в комнату
     AccelerationLinePID(130);
-
     // считывание белья
-    short washLeftRoom = 2;
-    AccelerationDist(200);
+    AccelerationDist(185);
+    ReadLeftWash(15, 20);
+    BrakeLeftRightMotor(1);
+    displayCenteredBigTextLine(8, "%d", ht_results[0]);
+    displayCenteredBigTextLine(12, "%d", get_colorWash_left(ht_results[0]));
+    short washLeftRoom = get_colorWash_left(ht_results[0]);
 
     // движения в комнате
     // если вода
@@ -52,7 +82,7 @@ short leftRoom(short markerLeft)
             AccelerationDist(-35);
             startTask(waterUp);
             BrakeLeftRightMotor(1);
-            sleep(100);
+            sleep(300);
             AccelerationDist(39.8);
             TankTurn(125);
             BrakeLeftRightMotor(1);
@@ -76,7 +106,7 @@ short leftRoom(short markerLeft)
             AccelerationDist(-40);
             startTask(waterUp);
             BrakeLeftRightMotor(1);
-            sleep(200);
+            sleep(300);
             AccelerationDist(37);
             BrakeLeftRightMotor(1);
             TankTurn(48);
@@ -104,8 +134,8 @@ short leftRoom(short markerLeft)
             startTask(openGrabers);
 
             // шарик
-            AccelerationDistSlow(-80)
-                BrakeLeftRightMotor(1);
+            AccelerationDistSlow(-80);
+            BrakeLeftRightMotor(1);
             sleep(2000);
             TankTurn(100, 0, 12);
             BrakeLeftRightMotor(1);
@@ -124,7 +154,7 @@ short leftRoom(short markerLeft)
 
             // возврат на линию
             AccelerationDist(16);
-            TankTurnFast(-82);
+            TankTurnFast(-80);
             startTask(throwBall_secondPart);
             AccelerationDist(205);
             AccelerationLinePID(100, 1);
@@ -174,8 +204,12 @@ short rightRoom(short markerRight)
     AccelerationLinePID(130);
 
     // считывание белья
-    short washRightRoom = 2;
-    AccelerationDist(200);
+    AccelerationDist(185);
+    ReadRightWash(15, 20);
+    BrakeLeftRightMotor(1);
+    displayCenteredBigTextLine(8, "%d", ht_results[1]);
+    displayCenteredBigTextLine(12, "%d", get_colorWash_right(ht_results[1]));
+    short washRightRoom = get_colorWash_right(ht_results[1]);
 
     // движения в комнате
     // если вода
@@ -211,7 +245,7 @@ short rightRoom(short markerRight)
             AccelerationDist(-35);
             startTask(waterUp);
             BrakeLeftRightMotor(1);
-            sleep(100);
+            sleep(300);
             AccelerationDist(39.8);
             TankTurn(-117);
             BrakeLeftRightMotor(1);
@@ -235,7 +269,7 @@ short rightRoom(short markerRight)
             AccelerationDist(-40);
             startTask(waterUp);
             BrakeLeftRightMotor(1);
-            sleep(200);
+            sleep(300);
             AccelerationDist(37);
             BrakeLeftRightMotor(1);
             TankTurn(-48);
@@ -326,18 +360,47 @@ short rightRoom(short markerRight)
     }
 }
 
+int get_colorMarker_left(long rawHTRes)
+{
+    if (rawHTRes > 2000)
+    {
+        return 6;
+    }
+    else
+    {
+        return 2;
+    }
+}
+
+int get_colorMarker_right(long rawHTRes)
+{
+    if (rawHTRes > 1000)
+    {
+        return 6;
+    }
+    else
+    {
+        return 2;
+    }
+}
+
 void Rooms()
 {
     // движение до линии с маркерами
-    AccelerationLinePID(50, 1);
+    AccelerationLinePID(200, 1, 1);
+    AccelerationDist(100, 1, 80);
+    ReadIndicator(40, 90);
+    AccelerationLinePID(50, 1, 0.1);
+    MoveBeforeTurn(1);
+    TankTurn(-90);
+    displayCenteredBigTextLine(8, "%d", get_colorMarker_left(ht_results[0]));
+    displayCenteredBigTextLine(12, "%d", get_colorMarker_right(ht_results[1]));
 
     // где-то тут считывание маркеров
-    short markerLeft = 6;
-    short markerRight = 6;
+    short markerLeft = get_colorMarker_left(ht_results[0]);
+    short markerRight = get_colorMarker_right(ht_results[1]);
 
     // движение к комнате
-    MoveBeforeTurn();
-    TankTurnFast(-90);
 
     // leftRoom
     short washLeftRoom = leftRoom(markerLeft);
@@ -346,18 +409,29 @@ void Rooms()
 
 void start()
 {
-    AccelerationDistSlow(20);
-    TankTurn(45);
+    startTask(grabStart);
+    AccelerationDistSlow(17);
+    BrakeLeftRightMotor(1);
+    sleep(300);
+    TankTurn(48);
+    BrakeLeftRightMotor(1);
+    sleep(300);
     startTask(waterFullDown);
     AccelerationDist(30);
     AccelerationLinePID(130, 1);
-    MoveBeforeTurn();
-    startTask(waterUp);
+    stopTask(waterFullDown);
+    stopMotor(waterMotor, 0);
+    AccelerationDist(BetweenSensorsAndMiddle - 14, 0.5, 11, 0.0001);
+    BrakeLeftRightMotor(1);
+    startTask(waterUpStart);
     // бутылки в роботе
-    sleep(500);
-    PointTurn(-200, 0, 45, 1);
-    TankTurnFast(180);
-    AccelerationLinePID(50, 1);
+    sleep(900);
+    PointTurn(-333, -10, 90, 1);
+    BrakeLeftRightMotor(1);
+    sleep(300);
+    TankTurn(194);
+    BrakeLeftRightMotor(1);
+    sleep(300);
     MoveBeforeTurn(0);
     // готов к комнате
 }
@@ -368,14 +442,21 @@ void moveFromRoomToRoom()
     // вроде бы нам налево, но если что надо заредачить
     TankTurnFast(-90);
     // сделать тут fast
-    AccelerationLinePID(300, 1);
+    AccelerationLinePID(400, 1);
 
-    AccelerationLinePID(100);
-    AccelerationDist(200);
+    AccelerationLinePID(130);
+    AccelerationDist(450);
+    BrakeLeftRightMotor(1);
+    sleep(200);
+    TankTurn(45);
+    BrakeLeftRightMotor(1);
+    sleep(200);
 
     // здесь бибот должен по дуге обойти человека и встать под ~45 градусов (или не под 45 гладусов) на перекрестке
-    PointTurn(-10, 50, 30, 1);
-    TankTurn(45);
+    PointTurn(-205, 0, -87, 1);
+    BrakeLeftRightMotor(1);
+    sleep(200);
+    TankTurn(41);
     // мы готовы ко второй комнате
 }
 
@@ -383,49 +464,63 @@ void moveFromSecondPairRoomsToFrames()
 {
     // закончили вторую комнату, едем к рамкам
     // вроде бы как нам направо, но я опять не уверен
-    TankTurnFast(90);
+    // как оказалось нет, нам налево
+    TankTurnFast(-90);
+    AccelerationLinePID(400, 1);
+    MoveBeforeTurn(1);
+    sleep(200);
 
     // надо бы опять объехать чела
     // повренуться вокруг себя, проехаться и повернуться на линию
-    TankTurn(-30);
-    AccelerationDist(150);
-    TankTurn(-60);
-    AccelerationLinePID(90, 1);
-    BrakeLeftRightMotor();
+    TankTurn(-25);
+    AccelerationDist(450);
+    TankTurn(-65);
+    BrakeLeftRightMotor(1);
+    sleep(200);
+    AccelerationLinePID(100, 1);
+    BrakeLeftRightMotor(1);
     // готов к рамкам
 }
 
 void actionFromPos_frames(int pos)
 {
+    playSound(soundBlip);
     // возможно стоит изменить абсолютный угол
     if (pos == 0)
     {
         // левая рамка относительно робота
         AbsTurn(60);
         throwCube();
+        BrakeLeftRightMotor(1);
     }
     else if (pos == 1)
     {
         // центральная рамка
         AbsTurn(90);
         throwCube();
+        BrakeLeftRightMotor(1);
     }
     else if (pos == 2)
     {
         // правая рамка относительно робота
         AbsTurn(120);
         throwCube();
+        BrakeLeftRightMotor(1);
+    }
+    else{
+        actionFromPos_frames(1);
     }
 }
 
-void frames()
+void frames_func()
 {
+    StartTask(grabFinish);
     // считывание
     // вращаться вокруг одной точки и считывать цвета рамок
 
     Array frames_array;
     int frames[3] = {1, 4, 5};
-    frames_array.pointer = &frames[0];
+    frames_array.pointer = &frames;
     frames_array.len = sizeof(frames) / sizeof(frames[0]);
 
     // надо выставить абсолютный угол
@@ -438,4 +533,22 @@ void frames()
         // что-то сделали
         actionFromPos_frames(position);
     }
+}
+
+void finish()
+{
+    sleep(300);
+    TankTurn(193);
+    BrakeLeftRightMotor(1);
+    sleep(300);
+    AccelerationLinePID(60);
+    AccelerationDist(240);
+    BrakeLeftRightMotor(1);
+    sleep(300);
+    TankTurn(45);
+    BrakeLeftRightMotor(1);
+    sleep(300);
+    AccelerationDistSlow(-5);
+    BrakeLeftRightMotor(1);
+    sleep(300);
 }
