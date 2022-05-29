@@ -79,11 +79,13 @@ short leftRoom(short markerLeft)
             setBottle(1, 0);
 
             //отъезд назад
-            AccelerationDist(-35);
-            startTask(waterUp);
+            AccelerationDist(-45);
             BrakeLeftRightMotor(1);
-            sleep(300);
-            AccelerationDist(39.8);
+
+            startTask(waterUp);
+            sleep(400);
+
+            AccelerationDist(49.8);
             TankTurn(125);
             BrakeLeftRightMotor(1);
 
@@ -103,11 +105,13 @@ short leftRoom(short markerLeft)
             setBottle(0, 0);
 
             //отъезд назад
-            AccelerationDist(-40);
-            startTask(waterUp);
+            AccelerationDist(-50);
             BrakeLeftRightMotor(1);
-            sleep(300);
-            AccelerationDist(37);
+
+            startTask(waterUp);
+            sleep(400);
+
+            AccelerationDist(47);
             BrakeLeftRightMotor(1);
             TankTurn(48);
             BrakeLeftRightMotor(1);
@@ -242,11 +246,13 @@ short rightRoom(short markerRight)
             setBottle(0, 0);
 
             //отъезд назад
-            AccelerationDist(-35);
-            startTask(waterUp);
+            AccelerationDist(-45);
             BrakeLeftRightMotor(1);
-            sleep(300);
-            AccelerationDist(39.8);
+
+            startTask(waterUp);
+            sleep(500);
+
+            AccelerationDist(49.8);
             TankTurn(-117);
             BrakeLeftRightMotor(1);
 
@@ -266,11 +272,13 @@ short rightRoom(short markerRight)
             setBottle(1, 0);
 
             //отъезд назад
-            AccelerationDist(-40);
-            startTask(waterUp);
+            AccelerationDist(-50);
             BrakeLeftRightMotor(1);
-            sleep(300);
-            AccelerationDist(37);
+
+            startTask(waterUp);
+            sleep(500);
+
+            AccelerationDist(47);
             BrakeLeftRightMotor(1);
             TankTurn(-48);
             BrakeLeftRightMotor(1);
@@ -297,8 +305,8 @@ short rightRoom(short markerRight)
             startTask(openGrabers);
 
             // шарик
-            AccelerationDistSlow(-80)
-                BrakeLeftRightMotor(1);
+            AccelerationDistSlow(-75)
+            BrakeLeftRightMotor(1);
             sleep(2000);
             TankTurn(-100, 0, 12);
             BrakeLeftRightMotor(1);
@@ -330,7 +338,7 @@ short rightRoom(short markerRight)
             AccelerationDist(61);
             TankTurn(-129, 0, 15);
             BrakeLeftRightMotor(1);
-            moveDriveSync(-81, -11, 1);
+            moveDriveSync(-76, -11, 1);
 
             // взять шарик
             takeBall();
@@ -455,8 +463,9 @@ void moveFromRoomToRoom()
     // здесь бибот должен по дуге обойти человека и встать под ~45 градусов (или не под 45 гладусов) на перекрестке
     PointTurn(-205, 0, -87, 1);
     BrakeLeftRightMotor(1);
-    sleep(200);
-    TankTurn(41);
+    AccelerationDist(40);
+    TankTurn(35);
+    BrakeLeftRightMotor(1);
     // мы готовы ко второй комнате
 }
 

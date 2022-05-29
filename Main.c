@@ -44,6 +44,8 @@ task main()
 	setBottle(0, 1);
 	setBottle(1, 1);
 
+	LCDWriteInfoHitechRaw(&colorLeftSensor, &WashInfoRawLeft);
+
 	start();
 	Rooms();
 	moveFromRoomToRoom();
